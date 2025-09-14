@@ -7,3 +7,4 @@ Este diretório concentra a documentação oficial do projeto **Folha de Pagamen
 - [Cartões CRC](./cartoes-crc.md)
 - [Diagrama de Classes](./diagrama-classes.md)
 - [Protótipos (Figma)](./prototipos.md)
+- [Planejamento de Testes](./planejamento-testes.md)
