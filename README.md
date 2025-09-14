@@ -18,6 +18,7 @@ Projeto desenvolvido para a disciplina **Programação Modular (2025)**, com foc
 - [Cartões CRC](calculo-folha-pagamento/docs/cartoes-crc.md)
 - [Diagrama de Classes](calculo-folha-pagamento/docs/diagrama-classes.md)
 - [Protótipos (Figma)](calculo-folha-pagamento/docs/prototipos.md)
+- [Planejamento de testes](calculo-folha-pagamento/docs/planejamento-testes.md)
 
 ## Funcionalidades Principais
 
