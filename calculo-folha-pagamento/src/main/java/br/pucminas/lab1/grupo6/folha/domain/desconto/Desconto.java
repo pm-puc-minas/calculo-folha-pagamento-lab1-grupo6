@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 
 public abstract class Desconto implements ICalcular {
 
-    protected BigDecimal valorDescontado;
+    protected Double valorDescontado;
 
     public Desconto() {}
 
-    public BigDecimal getValorDescontado() {
+    public Double getValorDescontado() {
         return valorDescontado;
     }
 
-    public void setValorDescontado(BigDecimal valorDescontado) {
+    public void setValorDescontado(Double valorDescontado) {
         this.valorDescontado = valorDescontado;
     }
 

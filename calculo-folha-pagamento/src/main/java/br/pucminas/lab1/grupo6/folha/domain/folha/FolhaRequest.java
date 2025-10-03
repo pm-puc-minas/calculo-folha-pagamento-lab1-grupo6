@@ -65,6 +65,4 @@ public class FolhaRequest {
     public void setHorasExtra(int horasExtra) {
         this.horasExtra = horasExtra;
     }
-
-    
 }

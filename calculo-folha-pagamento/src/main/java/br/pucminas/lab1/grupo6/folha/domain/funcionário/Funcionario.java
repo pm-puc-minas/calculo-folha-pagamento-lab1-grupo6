@@ -1,7 +1,6 @@
 package br.pucminas.lab1.grupo6.folha.domain.funcionário;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -20,7 +19,7 @@ public class Funcionario implements Serializable {
     private String nome;
     private String CPF;
     private String cargo;
-    private BigDecimal salarioBase;
+    private Double salarioBase;
     //Private User user
     //Private Periculosidade periculosidade
     //Private Insalibridade insalubridade
@@ -28,7 +27,7 @@ public class Funcionario implements Serializable {
 
     public Funcionario() {};
 
-    public Funcionario(UUID id, String nome, String CPF, String cargo, BigDecimal salarioBase) {
+    public Funcionario(UUID id, String nome, String CPF, String cargo, Double salarioBase) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
@@ -54,10 +53,10 @@ public class Funcionario implements Serializable {
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
-    public BigDecimal getSalarioBase() {
+    public Double getSalarioBase() {
         return salarioBase;
     }
-    public void setSalarioBase(BigDecimal salarioBase) {
+    public void setSalarioBase(Double salarioBase) {
         this.salarioBase = salarioBase;
     }
 
