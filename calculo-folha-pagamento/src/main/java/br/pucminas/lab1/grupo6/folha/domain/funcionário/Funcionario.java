@@ -21,7 +21,7 @@ public class Funcionario implements Serializable {
     private String nome;
     private String CPF;
     private String cargo;
-    private Double salarioBase;
+    private Double salarioBruto;
     // Private User user
     private Periculosidade periculosidade;
     private GrauInsalubridade insalubridade;
@@ -30,13 +30,13 @@ public class Funcionario implements Serializable {
     public Funcionario() {
     };
 
-    public Funcionario(UUID id, String nome, String CPF, String cargo, Double salarioBase,
+    public Funcionario(UUID id, String nome, String CPF, String cargo, Double salarioBruto,
             Periculosidade periculosidade, GrauInsalubridade insalubridade) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
         this.cargo = cargo;
-        this.salarioBase = salarioBase;
+        this.salarioBruto = salarioBruto;
         this.insalubridade = insalubridade;
         this.periculosidade = periculosidade;
     }
@@ -65,12 +65,12 @@ public class Funcionario implements Serializable {
         this.cargo = cargo;
     }
 
-    public Double getSalarioBase() {
-        return salarioBase;
+    public Double getSalarioBruto() {
+        return salarioBruto;
     }
 
-    public void setSalarioBase(Double salarioBase) {
-        this.salarioBase = salarioBase;
+    public void setSalarioBruto(Double salarioBruto) {
+        this.salarioBruto = salarioBruto;
     }
 
     public double getInsalubridade() {
@@ -116,9 +116,9 @@ public class Funcionario implements Serializable {
 
     @Override
     public String toString() {
-        return "Funcionario [id=" + id + ", nome=" + nome + ", CPF=" + CPF + ", cargo=" + cargo + ", salarioBase="
-                + salarioBase + ", getNome()=" + getNome() + ", getCPF()=" + getCPF() + ", getCargo()=" + getCargo()
-                + ", getSalarioBase()=" + getSalarioBase() + ", getInsalubridade()=" + getInsalubridade() + ", getPericulosidade()=" + getPericulosidade() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass()
+        return "Funcionario [id=" + id + ", nome=" + nome + ", CPF=" + CPF + ", cargo=" + cargo + ", salarioBruto="
+                + salarioBruto + ", getNome()=" + getNome() + ", getCPF()=" + getCPF() + ", getCargo()=" + getCargo()
+                + ", getSalarioBruto()=" + getSalarioBruto() + ", getInsalubridade()=" + getInsalubridade() + ", getPericulosidade()=" + getPericulosidade() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass()
                 + ", toString()=" + super.toString() + "]";
     }
 

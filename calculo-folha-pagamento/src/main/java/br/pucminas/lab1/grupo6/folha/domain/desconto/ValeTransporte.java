@@ -13,7 +13,7 @@ public class ValeTransporte extends Desconto {
 
     @Override
     public Double calcular(Funcionario funcionario, FolhaRequest folhaRequest) {
-        Double seisPorCentoDoSalario = (funcionario.getSalarioBase() * PORCENTAGEM_DESCONTO);
+        Double seisPorCentoDoSalario = (funcionario.getSalarioBruto() * PORCENTAGEM_DESCONTO);
         
         if (seisPorCentoDoSalario < folhaRequest.getValeTransporteRecebido()) {
             return seisPorCentoDoSalario;
