@@ -3,6 +3,8 @@ package br.pucminas.lab1.grupo6.folha.domain.funcionário;
 import java.io.Serializable;
 import java.util.UUID;
 
+import br.pucminas.lab1.grupo6.folha.domain.enums.GrauInsalubridade;
+import br.pucminas.lab1.grupo6.folha.domain.enums.Periculosidade;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,44 +22,71 @@ public class Funcionario implements Serializable {
     private String CPF;
     private String cargo;
     private Double salarioBase;
-    //Private User user
-    //Private Periculosidade periculosidade
-    //Private Insalibridade insalubridade
-    //Private ArrayList<FolhaDePagamento> historico
+    // Private User user
+    private Periculosidade periculosidade;
+    private GrauInsalubridade insalubridade;
+    // Private ArrayList<FolhaDePagamento> historico
 
-    public Funcionario() {};
+    public Funcionario() {
+    };
 
-    public Funcionario(UUID id, String nome, String CPF, String cargo, Double salarioBase) {
+    public Funcionario(UUID id, String nome, String CPF, String cargo, Double salarioBase,
+            Periculosidade periculosidade, GrauInsalubridade insalubridade) {
         this.id = id;
         this.nome = nome;
         this.CPF = CPF;
         this.cargo = cargo;
         this.salarioBase = salarioBase;
+        this.insalubridade = insalubridade;
+        this.periculosidade = periculosidade;
     }
-    
+
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public String getCPF() {
         return CPF;
     }
+
     public void setCPF(String cPF) {
         CPF = cPF;
     }
+
     public String getCargo() {
         return cargo;
     }
+
     public void setCargo(String cargo) {
         this.cargo = cargo;
     }
+
     public Double getSalarioBase() {
         return salarioBase;
     }
+
     public void setSalarioBase(Double salarioBase) {
         this.salarioBase = salarioBase;
+    }
+
+    public GrauInsalubridade getInsalubridade() {
+        return this.insalubridade;
+    }
+
+    public void setInsalubridade(GrauInsalubridade insalubridade) {
+        this.insalubridade = insalubridade;
+    }
+
+    public Periculosidade getPericulosidade() {
+        return this.periculosidade;
+    }
+
+    public void setPericulosidade(Periculosidade periculosidade) {
+        this.periculosidade = periculosidade;
     }
 
     @Override
