@@ -73,16 +73,16 @@ public class Funcionario implements Serializable {
         this.salarioBase = salarioBase;
     }
 
-    public GrauInsalubridade getInsalubridade() {
-        return this.insalubridade;
+    public double getInsalubridade() {
+        return this.insalubridade.getPercentual();
     }
 
     public void setInsalubridade(GrauInsalubridade insalubridade) {
         this.insalubridade = insalubridade;
     }
 
-    public Periculosidade getPericulosidade() {
-        return this.periculosidade;
+    public double getPericulosidade() {
+        return this.periculosidade.getPercentual();
     }
 
     public void setPericulosidade(Periculosidade periculosidade) {
@@ -118,7 +118,7 @@ public class Funcionario implements Serializable {
     public String toString() {
         return "Funcionario [id=" + id + ", nome=" + nome + ", CPF=" + CPF + ", cargo=" + cargo + ", salarioBase="
                 + salarioBase + ", getNome()=" + getNome() + ", getCPF()=" + getCPF() + ", getCargo()=" + getCargo()
-                + ", getSalarioBase()=" + getSalarioBase() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass()
+                + ", getSalarioBase()=" + getSalarioBase() + ", getInsalubridade()=" + getInsalubridade() + ", getPericulosidade()=" + getPericulosidade() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass()
                 + ", toString()=" + super.toString() + "]";
     }
 
