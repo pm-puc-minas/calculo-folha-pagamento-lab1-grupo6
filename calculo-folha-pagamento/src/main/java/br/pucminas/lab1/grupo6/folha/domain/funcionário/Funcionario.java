@@ -1,15 +1,14 @@
 package br.pucminas.lab1.grupo6.folha.domain.funcionário;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import br.pucminas.lab1.grupo6.folha.domain.enums.GrauInsalubridade;
 import br.pucminas.lab1.grupo6.folha.domain.enums.Periculosidade;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "funcionarios_tb")
@@ -23,9 +22,13 @@ public class Funcionario implements Serializable {
     private String cargo;
     private Double salarioBruto;
     // Private User user
+    @Enumerated(EnumType.STRING)
     private Periculosidade periculosidade;
+    @Enumerated(EnumType.STRING)
     private GrauInsalubridade insalubridade;
-    // Private ArrayList<FolhaDePagamento> historico
+
+    @OneToMany(mappedBy = "funcionario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FolhaDePagamento> folhasDePagamento;
 
     public Funcionario() {
     };
@@ -39,6 +42,7 @@ public class Funcionario implements Serializable {
         this.salarioBruto = salarioBruto;
         this.insalubridade = insalubridade;
         this.periculosidade = periculosidade;
+        this.folhasDePagamento = new ArrayList<>();
     }
 
     public String getNome() {
