@@ -127,4 +127,20 @@ public class FolhaDePagamento{
     public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
+
+    @Override
+    public String toString() {
+        return "FolhaDePagamento{" +
+                "horasTrabalhadas=" + horasTrabalhadas +
+                ", diasTrabalhados=" + diasTrabalhados +
+                ", salarioLiquido=" + salarioLiquido +
+                ", valorDeDescontoIRRF=" + valorDeDescontoIRRF +
+                ", valorDeDescontoFGTS=" + valorDeDescontoFGTS +
+                ", valorDeDescontoVA=" + valorDeDescontoVA +
+                ", valorDeDescontoVT=" + valorDeDescontoVT +
+                ", valorDeDescontoINSS=" + valorDeDescontoINSS +
+                ", mes=" + mes +
+                ", idFolha=" + idFolha +
+                '}';
+    }
 }
