@@ -11,9 +11,10 @@ public class FolhaRequest {
     private Double valeTransporteRecebido;
     private int cargaDiaria;
     private int horasExtra;
+    private Double valorValeAlimentacaoDiario;
 
     public FolhaRequest(YearMonth mes, int diasTrabalhados, Double jornadaMensal, Double jornadaSemanal,
-            Double valeTransporteRecebido, int cargaDiaria, int horasExtra) {
+            Double valeTransporteRecebido, int cargaDiaria, int horasExtra, Double valorValeAlimentacaoDiario) {
         this.mes = mes;
         this.diasTrabalhados = diasTrabalhados;
         this.jornadaMensal = jornadaMensal;
@@ -21,6 +22,7 @@ public class FolhaRequest {
         this.valeTransporteRecebido = valeTransporteRecebido;
         this.cargaDiaria = cargaDiaria;
         this.horasExtra = horasExtra;
+        this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
     }
     
     public YearMonth getMes() {
@@ -64,5 +66,11 @@ public class FolhaRequest {
     }
     public void setHorasExtra(int horasExtra) {
         this.horasExtra = horasExtra;
+    }
+    public Double getValorValeAlimentacaoDiario() {
+        return valorValeAlimentacaoDiario;
+    }
+    public void setValorValeAlimentacaoDiario(Double valorValeAlimentacaoDiario) {
+        this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
     }
 }
