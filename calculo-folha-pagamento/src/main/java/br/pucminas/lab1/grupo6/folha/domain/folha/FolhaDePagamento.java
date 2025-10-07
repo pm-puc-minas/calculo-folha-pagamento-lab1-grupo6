@@ -41,4 +41,90 @@ public class FolhaDePagamento{
         this.diasTrabalhados = diasTrabalhados;
         this.horasTrabalhadas = horasTrabalhadas;
     }
+
+    public int getIdFolha () { return idFolha; }
+
+    public void setIdFolha(int idFolha) {
+        this.idFolha = idFolha;
+    }
+
+    public YearMonth getMes() {
+        return mes;
+    }
+
+    public void setMes(YearMonth mes) {
+        this.mes = mes;
+    }
+
+    public Double getValorDeDescontoINSS() {
+        return valorDeDescontoINSS;
+    }
+
+    public void setValorDeDescontoINSS(Double valorDeDescontoINSS) {
+        this.valorDeDescontoINSS = valorDeDescontoINSS;
+    }
+
+    public Double getValorDeDescontoVT() {
+        return valorDeDescontoVT;
+    }
+
+    public void setValorDeDescontoVT(Double valorDeDescontoVT) {
+        this.valorDeDescontoVT = valorDeDescontoVT;
+    }
+
+    public Double getValorDeDescontoVA() {
+        return valorDeDescontoVA;
+    }
+
+    public void setValorDeDescontoVA(Double valorDeDescontoVA) {
+        this.valorDeDescontoVA = valorDeDescontoVA;
+    }
+
+    public Double getValorDeDescontoFGTS() {
+        return valorDeDescontoFGTS;
+    }
+
+    public void setValorDeDescontoFGTS(Double valorDeDescontoFGTS) {
+        this.valorDeDescontoFGTS = valorDeDescontoFGTS;
+    }
+
+    public Double getValorDeDescontoIRRF() {
+        return valorDeDescontoIRRF;
+    }
+
+    public void setValorDeDescontoIRRF(Double valorDeDescontoIRRF) {
+        this.valorDeDescontoIRRF = valorDeDescontoIRRF;
+    }
+
+    public Double getSalarioLiquido() {
+        return salarioLiquido;
+    }
+
+    public void setSalarioLiquido(Double salarioLiquido) {
+        this.salarioLiquido = salarioLiquido;
+    }
+
+    public int getDiasTrabalhados() {
+        return diasTrabalhados;
+    }
+
+    public void setDiasTrabalhados(int diasTrabalhados) {
+        this.diasTrabalhados = diasTrabalhados;
+    }
+
+    public int getHorasTrabalhadas() {
+        return horasTrabalhadas;
+    }
+
+    public void setHorasTrabalhadas(int horasTrabalhadas) {
+        this.horasTrabalhadas = horasTrabalhadas;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
 }
