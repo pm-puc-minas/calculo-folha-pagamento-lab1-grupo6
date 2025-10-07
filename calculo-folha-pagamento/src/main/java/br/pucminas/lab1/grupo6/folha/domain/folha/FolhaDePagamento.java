@@ -26,4 +26,19 @@ public class FolhaDePagamento{
     @ManyToOne (optional = true) //Anotação que aplica cardinalidade N:1 sem obrigatoriedade (optional = true)
     @JoinColumn (name = "funcionario_id") //Anotação que define idFuncionario como Foreign Key (FK)
     private Funcionario funcionario;
+
+    public FolhaDePagamento(){}
+
+    public FolhaDePagamento (Funcionario funcionario, YearMonth mes, Double valorDeDescontoINSS, Double valorDeDescontoVT, Double valorDeDescontoVA, Double valorDeDescontoFGTS, Double valorDeDescontoIRRF, Double salarioLiquido, int diasTrabalhados, int horasTrabalhadas){
+        this.funcionario = funcionario;
+        this.mes = mes;
+        this.valorDeDescontoINSS = valorDeDescontoINSS;
+        this.valorDeDescontoVT = valorDeDescontoVT;
+        this.valorDeDescontoVA = valorDeDescontoVA;
+        this.valorDeDescontoFGTS = valorDeDescontoFGTS;
+        this.valorDeDescontoIRRF = valorDeDescontoIRRF;
+        this.salarioLiquido = salarioLiquido;
+        this.diasTrabalhados = diasTrabalhados;
+        this.horasTrabalhadas = horasTrabalhadas;
+    }
 }
