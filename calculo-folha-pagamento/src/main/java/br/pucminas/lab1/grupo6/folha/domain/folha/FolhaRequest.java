@@ -12,9 +12,12 @@ public class FolhaRequest {
     private int cargaDiaria;
     private int horasExtra;
     private Double valorValeAlimentacaoDiario;
+    private int numeroDeDependentes;
+    private Double valorPensaoAlimenticia;
 
     public FolhaRequest(YearMonth mes, int diasTrabalhados, Double jornadaMensal, Double jornadaSemanal,
-            Double valeTransporteRecebido, int cargaDiaria, int horasExtra, Double valorValeAlimentacaoDiario) {
+            Double valeTransporteRecebido, int cargaDiaria, int horasExtra, Double valorValeAlimentacaoDiario,
+            int numeroDeDependentes, Double valorPensaoAlimenticia) {
         this.mes = mes;
         this.diasTrabalhados = diasTrabalhados;
         this.jornadaMensal = jornadaMensal;
@@ -23,6 +26,8 @@ public class FolhaRequest {
         this.cargaDiaria = cargaDiaria;
         this.horasExtra = horasExtra;
         this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
+        this.numeroDeDependentes = numeroDeDependentes;
+        this.valorPensaoAlimenticia = valorPensaoAlimenticia;
     }
     
     public YearMonth getMes() {
@@ -72,5 +77,17 @@ public class FolhaRequest {
     }
     public void setValorValeAlimentacaoDiario(Double valorValeAlimentacaoDiario) {
         this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
+    }
+    public int getNumeroDeDependentes() {
+        return numeroDeDependentes;
+    }
+    public void setNumeroDeDependentes(int numeroDeDependentes) {
+        this.numeroDeDependentes = numeroDeDependentes;
+    }
+    public Double getValorPensaoAlimenticia() {
+        return valorPensaoAlimenticia;
+    }
+    public void setValorPensaoAlimenticia(Double valorPensaoAlimenticia) {
+        this.valorPensaoAlimenticia = valorPensaoAlimenticia;
     }
 }
