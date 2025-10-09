@@ -17,7 +17,7 @@ public class Inss extends Desconto {
 
 
     public Inss(Funcionario funcionario, FolhaRequest folhaRequest){
-        setValorDescontado(calcular(funcionario, folhaRequest));
+        this.valorDescontado = calcular(funcionario, folhaRequest);
     }
 
     @Override

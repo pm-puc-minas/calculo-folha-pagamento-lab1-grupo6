@@ -6,7 +6,7 @@ import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 public class ValeAlimentacao extends Desconto {
     
     public ValeAlimentacao(Funcionario funcionario, FolhaRequest folhaRequest) {
-        setValorDescontado(calcular(funcionario, folhaRequest));
+        this.valorDescontado = calcular(funcionario, folhaRequest);
     }
 
     @Override

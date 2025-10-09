@@ -8,7 +8,7 @@ public class Irrf extends Desconto {
     private static final Double DEDUCAO_POR_DEPENDENTE = 189.59;
 
     public Irrf(Funcionario funcionario, FolhaRequest folhaRequest) {
-        setValorDescontado(calcular(funcionario, folhaRequest));
+       this.valorDescontado = calcular(funcionario, folhaRequest);
     }
 
     @Override

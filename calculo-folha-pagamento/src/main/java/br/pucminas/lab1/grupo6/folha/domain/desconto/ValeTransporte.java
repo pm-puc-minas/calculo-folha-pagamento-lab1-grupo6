@@ -8,7 +8,7 @@ public class ValeTransporte extends Desconto {
     private static final Double PORCENTAGEM_DESCONTO = 0.06;
 
     public ValeTransporte(Funcionario funcionario, FolhaRequest folhaRequest) {
-        setValorDescontado(calcular(funcionario, folhaRequest));
+        this.valorDescontado = calcular(funcionario, folhaRequest);
     }
 
     @Override

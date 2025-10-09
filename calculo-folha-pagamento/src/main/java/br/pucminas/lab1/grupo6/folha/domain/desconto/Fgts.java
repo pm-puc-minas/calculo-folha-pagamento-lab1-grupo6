@@ -8,13 +8,12 @@ public class Fgts extends Desconto {
     private static final Double PORCENTAGEM_DESCONTO = 0.08;
 
     public Fgts(Funcionario funcionario, FolhaRequest folhaRequest) {
-        setValorDescontado(calcular(funcionario, folhaRequest));
+        this.valorDescontado = calcular(funcionario, folhaRequest);   
     }
 
     @Override
     public Double calcular(Funcionario funcionario, FolhaRequest folhaRequest) {
         Double oitoPorCentroDoSalario = (funcionario.getSalarioBruto() * PORCENTAGEM_DESCONTO);
-
         return oitoPorCentroDoSalario;
     }
 }
