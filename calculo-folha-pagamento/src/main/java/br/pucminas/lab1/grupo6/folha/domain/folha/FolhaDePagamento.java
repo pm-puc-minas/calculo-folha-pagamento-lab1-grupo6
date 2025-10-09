@@ -42,6 +42,11 @@ public class FolhaDePagamento{
         this.horasTrabalhadas = horasTrabalhadas;
     }
 
+    public FolhaDePagamento(Funcionario funcionario2, YearMonth mes2, double salarioLiquido2,
+            long horasTrabalhadasPorMes) {
+        throw new UnsupportedOperationException("Unimplemented method 'FolhaDePagamento'");
+    }
+
     public int getIdFolha () { return idFolha; }
 
     public void setIdFolha(int idFolha) {
@@ -142,5 +147,9 @@ public class FolhaDePagamento{
                 ", mes=" + mes +
                 ", idFolha=" + idFolha +
                 '}';
+    }
+
+    public Long getHorasTrabalhadasPorMes() {
+        throw new UnsupportedOperationException("Unimplemented method 'getHorasTrabalhadasPorMes'");
     }
 }

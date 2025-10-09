@@ -62,11 +62,11 @@ public class FolhaRequest {
     public void setValeTransporteRecebido(Double valeTransporteRecebido) {
         this.valeTransporteRecebido = valeTransporteRecebido;
     }
-    public int getCargaDiaria() {
+    public double getCargaDiaria() {
         return cargaDiaria;
     }
-    public void setCargaDiaria(int cargaDiaria) {
-        this.cargaDiaria = cargaDiaria;
+    public void setCargaDiaria(double cargaDiaria) {
+        this.cargaDiaria = (int) cargaDiaria;
     }
     public int getHorasExtra() {
         return horasExtra;
