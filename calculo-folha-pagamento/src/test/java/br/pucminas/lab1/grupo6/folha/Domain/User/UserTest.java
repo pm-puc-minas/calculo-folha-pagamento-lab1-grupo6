@@ -16,7 +16,7 @@ public class UserTest {
 
   @BeforeEach
   void setUp() {
-    funcionario = new Funcionario(); // pode ser um mock, dependendo da implementação
+    funcionario = new Funcionario();
     user = new User("teste@empresa.com", "12345", Role.ADMIN, funcionario);
   }
 
