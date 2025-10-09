@@ -35,6 +35,6 @@ public class Irrf extends Desconto {
             imposto = (calculoIrrf * 0.275) - 869.36;
         }
 
-        return Math.max(imposto, 0.0);
+        return imposto;
     }
 }
