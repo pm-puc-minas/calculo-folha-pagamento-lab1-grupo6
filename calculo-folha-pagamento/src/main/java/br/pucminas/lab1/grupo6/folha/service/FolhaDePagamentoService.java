@@ -15,22 +15,19 @@ public class FolhaDePagamentoService {
     private DescontoFactory descontoFactory;
 
     public FolhaDePagamento gerarFolhaDePagamento(Funcionario funcionario, FolhaRequest request) {
-        var salarioBruto = funcionario.getSalarioBruto() == null ? 0.0 : funcionario.getSalarioBruto();
-        var descontoInss = switch (funcionario.getCargo()) {
-            case "Estagiário" -> salarioBruto * 0.12;
-            case "Analista" -> salarioBruto * 0.15;
-            case "Gerente" -> salarioBruto * 0.18;
-            case "Diretor" -> salarioBruto * 0.20;
-            default -> salarioBruto * 0.10;
-        };
-        int horasTrabalhadas = (int) Math.round(request.getCargaDiaria() * request.getDiasTrabalhados());
-        var folhaDePagamento = new FolhaDePagamento();
-        folhaDePagamento.setFuncionario(funcionario);
-        folhaDePagamento.setMes(request.getMes());
-        folhaDePagamento.setHorasTrabalhadas(horasTrabalhadas);
-        folhaDePagamento.setDiasTrabalhados(request.getDiasTrabalhados());
-        folhaDePagamento.setValorDeDescontoINSS(descontoInss);
+        FolhaDePagamento folha = new FolhaDePagamento(
+            funcionario,
+            request.getMes(),
+            descontoFactory.criarInss(funcionario, request).getValorDescontado(),
+            descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado(),
+            descontoFactory.criarValeAlimentacao(funcionario, request).getValorDescontado(),
+            descontoFactory.criarFgts(funcionario, request).getValorDescontado(),
+            descontoFactory.criarIrrf(funcionario, request).getValorDescontado(),
+            0.0, //alterar conforme correto
+            request.getDiasTrabalhados(), //alterar conforme correto
+            (int) Math.round(request.getCargaDiaria() * request.getDiasTrabalhados()) //alterar conforme correto
+        );
 
-        return folhaDePagamento;
-}
+        return folha;
+    }
 }

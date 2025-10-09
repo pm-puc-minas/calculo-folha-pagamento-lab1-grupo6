@@ -5,23 +5,23 @@ import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 
 public class DescontoFactory {
 
-    public static ValeAlimentacao criarValeAlimentacao(Funcionario funcionario, FolhaRequest folhaRequest) {
+    public ValeAlimentacao criarValeAlimentacao(Funcionario funcionario, FolhaRequest folhaRequest) {
         return new ValeAlimentacao(funcionario, folhaRequest);
     }
 
-    public static Fgts criarFgts(Funcionario funcionario, FolhaRequest folhaRequest) {
+    public Fgts criarFgts(Funcionario funcionario, FolhaRequest folhaRequest) {
         return new Fgts(funcionario, folhaRequest);
     }
 
-    public static Inss criarInss(Funcionario funcionario, FolhaRequest folhaRequest) {
+    public Inss criarInss(Funcionario funcionario, FolhaRequest folhaRequest) {
         return new Inss(funcionario, folhaRequest);
     }
 
-    public static ValeTransporte criarValeTransporte(Funcionario funcionario, FolhaRequest folhaRequest) {
+    public ValeTransporte criarValeTransporte(Funcionario funcionario, FolhaRequest folhaRequest) {
         return new ValeTransporte(funcionario, folhaRequest);
     }
 
-    public static Irrf criarIrrf(Funcionario funcionario, FolhaRequest folhaRequest) {
+    public Irrf criarIrrf(Funcionario funcionario, FolhaRequest folhaRequest) {
         return new Irrf(funcionario, folhaRequest);
     }
 
