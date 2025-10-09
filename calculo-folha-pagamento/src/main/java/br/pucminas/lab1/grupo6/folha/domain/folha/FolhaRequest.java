@@ -15,6 +15,8 @@ public class FolhaRequest {
     private int numeroDeDependentes;
     private Double valorPensaoAlimenticia;
 
+    public FolhaRequest() {}
+
     public FolhaRequest(YearMonth mes, int diasTrabalhados, Double jornadaMensal, Double jornadaSemanal,
             Double valeTransporteRecebido, int cargaDiaria, int horasExtra, Double valorValeAlimentacaoDiario,
             int numeroDeDependentes, Double valorPensaoAlimenticia) {
