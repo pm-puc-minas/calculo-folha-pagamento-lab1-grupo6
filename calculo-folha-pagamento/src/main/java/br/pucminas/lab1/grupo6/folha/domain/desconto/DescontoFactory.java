@@ -1,8 +1,11 @@
 package br.pucminas.lab1.grupo6.folha.domain.desconto;
 
+import org.springframework.stereotype.Component;
+
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 
+@Component
 public class DescontoFactory {
 
     public ValeAlimentacao criarValeAlimentacao(Funcionario funcionario, FolhaRequest folhaRequest) {
