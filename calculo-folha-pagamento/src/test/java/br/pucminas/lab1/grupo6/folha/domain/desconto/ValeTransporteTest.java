@@ -16,7 +16,7 @@ public class ValeTransporteTest {
         Funcionario funcionario = new Funcionario();
         FolhaRequest folhaRequest = new FolhaRequest();
         funcionario.setSalarioBruto(1000.0);
-        Double esperado = 3000.0 * 0.06;
+        Double esperado = 1000.0 * 0.06;
 
         //Act
         ValeTransporte valeTransporte = new ValeTransporte(funcionario, folhaRequest);
