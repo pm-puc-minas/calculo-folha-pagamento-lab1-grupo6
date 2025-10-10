@@ -17,6 +17,23 @@ public class ValeTransporteTest {
         FolhaRequest folhaRequest = new FolhaRequest();
         funcionario.setSalarioBruto(1000.0);
         Double esperado = 1000.0 * 0.06;
+        folhaRequest.setValeTransporteRecebido(esperado + 1);
+
+        //Act
+        ValeTransporte valeTransporte = new ValeTransporte(funcionario, folhaRequest);
+        
+        //Assert
+        assertEquals(esperado, valeTransporte.getValorDescontado());
+    }
+
+    @Test
+    public void ValeTransporte_Calcular_ReturnValeTransporteRecebido() {
+        //Arrange
+        Funcionario funcionario = new Funcionario();
+        FolhaRequest folhaRequest = new FolhaRequest();
+        funcionario.setSalarioBruto(1000.0);
+        Double esperado = 1000.0 * 0.06 - 1;
+        folhaRequest.setValeTransporteRecebido(esperado);
 
         //Act
         ValeTransporte valeTransporte = new ValeTransporte(funcionario, folhaRequest);

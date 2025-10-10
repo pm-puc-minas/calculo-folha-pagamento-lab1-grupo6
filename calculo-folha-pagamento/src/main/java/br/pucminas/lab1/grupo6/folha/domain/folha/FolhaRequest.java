@@ -92,4 +92,9 @@ public class FolhaRequest {
     public void setValorPensaoAlimenticia(Double valorPensaoAlimenticia) {
         this.valorPensaoAlimenticia = valorPensaoAlimenticia;
     }
+
+    public void setCargaDiaria(int cargaDiaria) {
+        this.cargaDiaria = cargaDiaria;
+    }
+    
 }
