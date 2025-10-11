@@ -15,9 +15,4 @@ public enum Aliquotas {
     public double getAliquota() {
         return aliquota;
     }
-
-    
-
-
-
 }
