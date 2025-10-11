@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-FolhaPagamentoApplication<calculo-folha-pagamento>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "br.pucminas.lab1.grupo6.folha.FolhaPagamentoApplication",
+            "projectName": "calculo-folha-pagamento",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
