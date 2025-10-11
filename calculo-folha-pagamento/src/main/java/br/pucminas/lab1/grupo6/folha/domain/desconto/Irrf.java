@@ -11,6 +11,16 @@ public class Irrf extends Desconto {
        this.valorDescontado = calcular(funcionario, folhaRequest);
     }
 
+    /*
+    A implementação deste método segue rigorosamente a metodologia e o exemplo de cálculo
+     fornecidos no documento de requisitos do projeto, especificamente o detalhado na página 11.
+    A subtração final da "parcela a deduzir" não constitui um desconto duplo. 
+     A fórmula correta, confirmada pelo material, é: 
+     Imposto Devido = (Base de Cálculo * Alíquota) - Parcela a Deduzir.
+    Esta implementação segue exatamente esse processo, garantindo conformidade com os
+     requisitos e a precisão do cálculo.
+    */
+
     @Override
     public Double calcular(Funcionario funcionario, FolhaRequest folhaRequest) {
         Inss inss = new Inss(funcionario, folhaRequest);

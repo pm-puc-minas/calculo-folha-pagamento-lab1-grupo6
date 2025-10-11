@@ -1,8 +1,10 @@
-# Sistema de Folha de Pagamento
+# 💼 Sistema de Folha de Pagamento
 
 Projeto desenvolvido para a disciplina **Programação Modular (2025)**, com foco em um sistema de gestão de folha de pagamento para RH, utilizando **Java + Spring Boot** no backend e frontend web.
 
-## Integrantes
+---
+
+## 👥 Integrantes
 
 - Alice Souza Lima  
 - Felipe Paz Carvalho Batista  
@@ -11,39 +13,38 @@ Projeto desenvolvido para a disciplina **Programação Modular (2025)**, com foc
 - Vitor de Roma Honório  
 - Zaine Mendes Torres
 
-## Sumário
+---
 
-- [Documentação](calculo-folha-pagamento/docs/README.md)
-- [Requisitos do Projeto](calculo-folha-pagamento/docs/requisitos.md)
-- [Cartões CRC](calculo-folha-pagamento/docs/cartoes-crc.md)
-- [Diagrama de Classes](calculo-folha-pagamento/docs/diagrama-classes.md)
-- [Protótipos (Figma)](calculo-folha-pagamento/docs/prototipos.md)
-- [Planejamento de testes](calculo-folha-pagamento/docs/planejamento-testes.md)
+## 📑 Sumário da Documentação
 
-## Funcionalidades Principais
+- [Aplicações de POO (Herança, Interface, Polimorfismo, Classe Abstrata)](calculo-folha-pagamento/docs/aplicacoes-poo.md)
+- [Arquitetura do Sistema (Visão Geral, Estrutura de Pastas)](calculo-folha-pagamento/docs/arquitetura.md)
+- [Modelagem do Sistema (Cartões CRC, Diagrama de Classes)](calculo-folha-pagamento/docs/modelagem.md)
+- [Prototipo do Projeto](calculo-folha-pagamento/docs/prototipo.md)
+- [Testes Unitários (Planejamento, Implementação e Execução dos Testes)](calculo-folha-pagamento/docs/testes.md)
+
+---
+
+## ⚙️ Funcionalidades Principais
 
 - Autenticação de usuários (login/senha)
-- Cálculo de salário hora, adicionais, benefícios e descontos (INSS, FGTS, IRRF)
+- Cálculo de salário hora, adicionais, benefícios e descontos
 - Relatório detalhado da folha de pagamento
 - Interface web simples e intuitiva
 - Testes unitários para validação das regras de negócio
 
-## Tecnologias Utilizadas
+---
 
-- **Java 17+**
-- **Spring Boot**
-- **Frontend Web** (tecnologia à escolha do grupo)
-- **Banco de Dados Relacional**
-- **BigDecimal** para cálculos financeiros
+## 🧰 Tecnologias Utilizadas
 
-## Estrutura de Pastas
-
-- `calculo-folha-pagamento/` — Projeto principal
-  - `src/main/java/` — Código-fonte principal
-  - `src/test/java/` — Testes automatizados
-  - `docs/` — Documentação, diagramas, requisitos, cartões CRC e protótipos
-    - `assets/modelagem/` — Diagramas e cartões CRC
-    - `assets/prototipo/` — Screenshots dos protótipos de UI
+- **Java 21**
+- **Spring Boot 3.5.5**
+- **Spring Web**
+- **Spring Data JPA**
+- **Maven**
+- **H2 Database**
+- **JUnit 5, **Mockito** e **Spring Test**
+- **Frontend Web** (tecnologia à escolha do time)
 
 ---
 
