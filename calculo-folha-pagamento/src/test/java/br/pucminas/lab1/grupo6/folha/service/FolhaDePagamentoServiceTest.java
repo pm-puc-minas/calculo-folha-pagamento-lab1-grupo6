@@ -41,7 +41,7 @@ class FolhaDePagamentoServiceTest {
 
     @BeforeEach
     void setUp() {
-        service = new FolhaDePagamentoService(descontoFactory);
+        service = new FolhaDePagamentoService();
     }
 
     @Test

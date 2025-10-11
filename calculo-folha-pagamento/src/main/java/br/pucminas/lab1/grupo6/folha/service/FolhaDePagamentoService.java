@@ -1,5 +1,6 @@
 package br.pucminas.lab1.grupo6.folha.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
@@ -10,23 +11,28 @@ import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 @Service
 public class FolhaDePagamentoService {
 
-    private final DescontoFactory descontoFactory;
-
-    public FolhaDePagamentoService(DescontoFactory descontoFactory) {
-        this.descontoFactory = descontoFactory;
-    }
-
+    @Autowired
+    private DescontoFactory descontoFactory;
 
     public FolhaDePagamento gerarFolhaDePagamento(Funcionario funcionario, FolhaRequest request) {
+        double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
+                ? descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado()
+                : 0.0;
 
-        var inss = descontoFactory.criarInss(funcionario, request).getValorDescontado();
-        var valeTransporte = descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado();
-        var valeAlimentacao = descontoFactory.criarValeAlimentacao(funcionario, request).getValorDescontado();
-        var fgts = descontoFactory.criarFgts(funcionario, request).getValorDescontado();
-        var irrf = descontoFactory.criarIrrf(funcionario, request).getValorDescontado();
+        double valeAlimentacao = (request.getValorValeAlimentacaoDiario() != null && request.getValorValeAlimentacaoDiario() > 0)
+                ? descontoFactory.criarValeAlimentacao(funcionario, request).getValorDescontado()
+                : 0.0;
 
-        var horasTrabalhadasPorMes = Math.round(request.getCargaDiaria() * request.getDiasTrabalhados());
-        var salarioLiquido = funcionario.getSalarioBruto() - inss - irrf - valeTransporte + valeAlimentacao;
+        double inss = descontoFactory.criarInss(funcionario, request).getValorDescontado();
+        double fgts = descontoFactory.criarFgts(funcionario, request).getValorDescontado();
+        double irrf = descontoFactory.criarIrrf(funcionario, request).getValorDescontado();
+
+        int horasTrabalhadasPorMes = (int) request.getCargaDiaria() * request.getDiasTrabalhados();
+        double salarioLiquido = funcionario.getSalarioBruto()
+                - inss
+                - irrf
+                - valeTransporte
+                + valeAlimentacao;
 
         return new FolhaDePagamento(
                 funcionario,
@@ -38,6 +44,7 @@ public class FolhaDePagamentoService {
                 irrf,
                 salarioLiquido,
                 request.getDiasTrabalhados(),
-                (int) horasTrabalhadasPorMes);
+                horasTrabalhadasPorMes
+        );
     }
 }
