@@ -1,5 +1,6 @@
 package br.pucminas.lab1.grupo6.folha.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
@@ -10,11 +11,8 @@ import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 @Service
 public class FolhaDePagamentoService {
 
-    private final DescontoFactory descontoFactory;
-
-    public FolhaDePagamentoService(DescontoFactory descontoFactory) {
-        this.descontoFactory = descontoFactory;
-    }
+    @Autowired
+    private DescontoFactory descontoFactory;
 
     public FolhaDePagamento gerarFolhaDePagamento(Funcionario funcionario, FolhaRequest request) {
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
