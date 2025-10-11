@@ -5,8 +5,8 @@ A aplicação adota uma **arquitetura em camadas**.
 
 Cada camada é responsável por uma parte bem definida da aplicação:
 
-| Camada | Função Principal | Localização |
-|--------|------------------|-------------|
+| Camada | Função Principal |
+|--------|------------------|
 | **Configuração (Config)** | Define parâmetros de inicialização e perfis de execução |
 | **Controle (Controller)** | Recebe e responde às requisições HTTP |
 | **Serviço (Service)** | Atua como camada de orquestração, coordenando o fluxo entre as classes de domínio, fábricas de desconto e repositórios |
