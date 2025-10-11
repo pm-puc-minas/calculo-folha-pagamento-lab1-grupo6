@@ -18,6 +18,7 @@ public class FolhaDePagamentoService {
 
 
     public FolhaDePagamento gerarFolhaDePagamento(Funcionario funcionario, FolhaRequest request) {
+
         var inss = descontoFactory.criarInss(funcionario, request).getValorDescontado();
         var valeTransporte = descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado();
         var valeAlimentacao = descontoFactory.criarValeAlimentacao(funcionario, request).getValorDescontado();
