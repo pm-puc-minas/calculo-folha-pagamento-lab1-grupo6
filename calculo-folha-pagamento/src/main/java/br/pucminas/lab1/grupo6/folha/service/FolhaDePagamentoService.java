@@ -12,7 +12,7 @@ import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 public class FolhaDePagamentoService {
 
     @Autowired
-    private DescontoFactory descontoFactory;
+    private DescontoFactory descontoFactory; //Uso de Factory já? Bom.
 
     public FolhaDePagamento gerarFolhaDePagamento(Funcionario funcionario, FolhaRequest request) {
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
