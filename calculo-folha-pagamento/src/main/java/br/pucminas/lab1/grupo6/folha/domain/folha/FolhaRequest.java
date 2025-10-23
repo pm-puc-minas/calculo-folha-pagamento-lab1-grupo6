@@ -1,9 +1,11 @@
 package br.pucminas.lab1.grupo6.folha.domain.folha;
 
 import java.time.YearMonth;
+import java.util.UUID;
 
 public class FolhaRequest {
 
+    private UUID idFuncionario;
     private YearMonth mes;
     private int diasTrabalhados;
     private Double jornadaMensal;
@@ -19,7 +21,7 @@ public class FolhaRequest {
 
     public FolhaRequest(YearMonth mes, int diasTrabalhados, Double jornadaMensal, Double jornadaSemanal,
             Double valeTransporteRecebido, int cargaDiaria, int horasExtra, Double valorValeAlimentacaoDiario,
-            int numeroDeDependentes, Double valorPensaoAlimenticia) {
+            int numeroDeDependentes, Double valorPensaoAlimenticia, UUID idFuncionario) {
         this.mes = mes;
         this.diasTrabalhados = diasTrabalhados;
         this.jornadaMensal = jornadaMensal;
@@ -30,71 +32,41 @@ public class FolhaRequest {
         this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
         this.numeroDeDependentes = numeroDeDependentes;
         this.valorPensaoAlimenticia = valorPensaoAlimenticia;
+        this.idFuncionario = idFuncionario;
     }
     
     public YearMonth getMes() {
         return mes;
     }
-    public void setMes(YearMonth mes) {
-        this.mes = mes;
-    }
     public int getDiasTrabalhados() {
         return diasTrabalhados;
-    }
-    public void setDiasTrabalhados(int diasTrabalhados) {
-        this.diasTrabalhados = diasTrabalhados;
     }
     public Double getJornadaMensal() {
         return jornadaMensal;
     }
-    public void setJornadaMensal(Double jornadaMensal) {
-        this.jornadaMensal = jornadaMensal;
-    }
     public Double getJornadaSemanal() {
         return jornadaSemanal;
-    }
-    public void setJornadaSemanal(Double jornadaSemanal) {
-        this.jornadaSemanal = jornadaSemanal;
     }
     public Double getValeTransporteRecebido() {
         return valeTransporteRecebido;
     }
-    public void setValeTransporteRecebido(Double valeTransporteRecebido) {
-        this.valeTransporteRecebido = valeTransporteRecebido;
-    }
     public double getCargaDiaria() {
         return cargaDiaria;
-    }
-    public void setCargaDiaria(double cargaDiaria) {
-        this.cargaDiaria = (int) cargaDiaria;
     }
     public int getHorasExtra() {
         return horasExtra;
     }
-    public void setHorasExtra(int horasExtra) {
-        this.horasExtra = horasExtra;
-    }
     public Double getValorValeAlimentacaoDiario() {
         return valorValeAlimentacaoDiario;
-    }
-    public void setValorValeAlimentacaoDiario(Double valorValeAlimentacaoDiario) {
-        this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
     }
     public int getNumeroDeDependentes() {
         return numeroDeDependentes;
     }
-    public void setNumeroDeDependentes(int numeroDeDependentes) {
-        this.numeroDeDependentes = numeroDeDependentes;
-    }
     public Double getValorPensaoAlimenticia() {
         return valorPensaoAlimenticia;
     }
-    public void setValorPensaoAlimenticia(Double valorPensaoAlimenticia) {
-        this.valorPensaoAlimenticia = valorPensaoAlimenticia;
-    }
-
-    public void setCargaDiaria(int cargaDiaria) {
-        this.cargaDiaria = cargaDiaria;
+    public UUID getIdFuncionario() {
+        return idFuncionario;
     }
     
 }

@@ -7,6 +7,7 @@ import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
+import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
 
 @Service
 public class FolhaDePagamentoService {
@@ -14,7 +15,16 @@ public class FolhaDePagamentoService {
     @Autowired
     private DescontoFactory descontoFactory; //Uso de Factory já? Bom.
 
-    public FolhaDePagamento gerarFolhaDePagamento(Funcionario funcionario, FolhaRequest request) {
+    @Autowired
+    private FuncionarioRepository funcionarioRepository;
+
+    public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request) {
+
+        Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario()).get();
+        if (funcionario == null) {
+                throw new RuntimeException("Usuário não encontrado.");
+        }
+
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
                 ? descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado()
                 : 0.0;
