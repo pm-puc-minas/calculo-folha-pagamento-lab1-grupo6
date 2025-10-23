@@ -22,7 +22,7 @@ public class SalarioServiceTest {
         funcionario.setSalarioBruto(3000.0);
         var request = new FolhaRequest();
         request.setJornadaMensal(160.0);
-        request.setCargaDiaria(8.0);
+        request.setCargaDiaria(8);
         request.setDiasTrabalhados(20);
 
         double hora = salarioService.calcularSalarioPorHora(funcionario, request);

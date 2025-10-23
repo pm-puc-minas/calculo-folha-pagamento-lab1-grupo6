@@ -68,5 +68,39 @@ public class FolhaRequest {
     public UUID getIdFuncionario() {
         return idFuncionario;
     }
+
+    public void setIdFuncionario(UUID idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
+    public void setMes(YearMonth mes) {
+        this.mes = mes;
+    }
+    public void setDiasTrabalhados(int diasTrabalhados) {
+        this.diasTrabalhados = diasTrabalhados;
+    }
+    public void setJornadaMensal(Double jornadaMensal) {
+        this.jornadaMensal = jornadaMensal;
+    }
+    public void setJornadaSemanal(Double jornadaSemanal) {
+        this.jornadaSemanal = jornadaSemanal;
+    }
+    public void setValeTransporteRecebido(Double valeTransporteRecebido) {
+        this.valeTransporteRecebido = valeTransporteRecebido;
+    }
+    public void setCargaDiaria(int cargaDiaria) {
+        this.cargaDiaria = cargaDiaria;
+    }
+    public void setHorasExtra(int horasExtra) {
+        this.horasExtra = horasExtra;
+    }
+    public void setValorValeAlimentacaoDiario(Double valorValeAlimentacaoDiario) {
+        this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
+    }
+    public void setNumeroDeDependentes(int numeroDeDependentes) {
+        this.numeroDeDependentes = numeroDeDependentes;
+    }
+    public void setValorPensaoAlimenticia(Double valorPensaoAlimenticia) {
+        this.valorPensaoAlimenticia = valorPensaoAlimenticia;
+    }
     
 }

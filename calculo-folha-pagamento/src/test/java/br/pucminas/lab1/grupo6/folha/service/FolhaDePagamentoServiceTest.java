@@ -52,7 +52,7 @@ class FolhaDePagamentoServiceTest {
         var request = new FolhaRequest();
         request.setMes(YearMonth.of(2024, 6));
         request.setDiasTrabalhados(22);
-        request.setCargaDiaria(8.0);
+        request.setCargaDiaria(8);
 
         when(descontoFactory.criarInss(funcionario, request)).thenReturn(inss);
         when(descontoFactory.criarValeTransporte(funcionario, request)).thenReturn(valeTransporte);
@@ -66,7 +66,7 @@ class FolhaDePagamentoServiceTest {
         when(fgts.getValorDescontado()).thenReturn(400.0);
         when(irrf.getValorDescontado()).thenReturn(250.0);
 
-        var folha = service.gerarFolhaDePagamento(funcionario, request);
+        var folha = service.gerarFolhaDePagamento(request);
 
         assertNotNull(folha);
         assertEquals(funcionario, folha.getFuncionario());
@@ -89,7 +89,7 @@ class FolhaDePagamentoServiceTest {
         var request = new FolhaRequest();
         request.setMes(YearMonth.of(2024, 1));
         request.setDiasTrabalhados(20);
-        request.setCargaDiaria(8.0);
+        request.setCargaDiaria(8);
 
         when(descontoFactory.criarInss(funcionario, request)).thenReturn(inss);
         when(descontoFactory.criarValeTransporte(funcionario, request)).thenReturn(valeTransporte);
@@ -103,7 +103,7 @@ class FolhaDePagamentoServiceTest {
         when(fgts.getValorDescontado()).thenReturn(0.0);
         when(irrf.getValorDescontado()).thenReturn(0.0);
 
-        var folha = service.gerarFolhaDePagamento(funcionario, request);
+        var folha = service.gerarFolhaDePagamento(request);
 
         assertNotNull(folha);
         assertEquals(2000.0, folha.getSalarioLiquido());
