@@ -1,27 +1,25 @@
 package br.pucminas.lab1.grupo6.folha.domain.funcionário;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import br.pucminas.lab1.grupo6.folha.domain.enums.GrauInsalubridade;
 import br.pucminas.lab1.grupo6.folha.domain.enums.Periculosidade;
+import br.pucminas.lab1.grupo6.folha.domain.enums.Role;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
+import br.pucminas.lab1.grupo6.folha.domain.user.User;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "funcionarios_tb")
-public class Funcionario implements Serializable {
+public class Funcionario extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
     private String nome;
     private String CPF;
     private String cargo;
     private Double salarioBruto;
-    // Private User user
+
     @Enumerated(EnumType.STRING)
     private Periculosidade periculosidade;
     @Enumerated(EnumType.STRING)
@@ -34,8 +32,8 @@ public class Funcionario implements Serializable {
     };
 
     public Funcionario(UUID id, String nome, String CPF, String cargo, Double salarioBruto,
-            Periculosidade periculosidade, GrauInsalubridade insalubridade) {
-        this.id = id;
+            Periculosidade periculosidade, GrauInsalubridade insalubridade, String email, String password, Role role) {
+        super(id, email, password, role);
         this.nome = nome;
         this.CPF = CPF;
         this.cargo = cargo;

@@ -2,6 +2,8 @@ package br.pucminas.lab1.grupo6.folha.domain.folha;
 
 import java.time.YearMonth;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 import jakarta.persistence.*;
 
@@ -25,6 +27,7 @@ public class FolhaDePagamento{
 
     @ManyToOne (optional = true) //Anotação que aplica cardinalidade N:1 sem obrigatoriedade (optional = true)
     @JoinColumn (name = "funcionario_id") //Anotação que define idFuncionario como Foreign Key (FK)
+    @JsonIgnore
     private Funcionario funcionario;
 
     public FolhaDePagamento(){}
@@ -40,11 +43,6 @@ public class FolhaDePagamento{
         this.salarioLiquido = salarioLiquido;
         this.diasTrabalhados = diasTrabalhados;
         this.horasTrabalhadas = horasTrabalhadas;
-    }
-
-    public FolhaDePagamento(Funcionario funcionario2, YearMonth mes2, double salarioLiquido2,
-            long horasTrabalhadasPorMes) {
-        throw new UnsupportedOperationException("Unimplemented method 'FolhaDePagamento'");
     }
 
     public int getIdFolha () { return idFolha; }
@@ -147,9 +145,5 @@ public class FolhaDePagamento{
                 ", mes=" + mes +
                 ", idFolha=" + idFolha +
                 '}';
-    }
-
-    public Long getHorasTrabalhadasPorMes() {
-        throw new UnsupportedOperationException("Unimplemented method 'getHorasTrabalhadasPorMes'");
     }
 }

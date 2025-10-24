@@ -102,5 +102,22 @@ public class FolhaRequest {
     public void setValorPensaoAlimenticia(Double valorPensaoAlimenticia) {
         this.valorPensaoAlimenticia = valorPensaoAlimenticia;
     }
+
+    @Override
+    public String toString() {
+        return "FolhaRequest [idFuncionario=" + idFuncionario + ", mes=" + mes + ", diasTrabalhados=" + diasTrabalhados
+                + ", jornadaMensal=" + jornadaMensal + ", jornadaSemanal=" + jornadaSemanal
+                + ", valeTransporteRecebido=" + valeTransporteRecebido + ", cargaDiaria=" + cargaDiaria
+                + ", horasExtra=" + horasExtra + ", valorValeAlimentacaoDiario=" + valorValeAlimentacaoDiario
+                + ", numeroDeDependentes=" + numeroDeDependentes + ", valorPensaoAlimenticia=" + valorPensaoAlimenticia
+                + ", getMes()=" + getMes() + ", getDiasTrabalhados()=" + getDiasTrabalhados() + ", getJornadaMensal()="
+                + getJornadaMensal() + ", getJornadaSemanal()=" + getJornadaSemanal() + ", getValeTransporteRecebido()="
+                + getValeTransporteRecebido() + ", getCargaDiaria()=" + getCargaDiaria() + ", getHorasExtra()="
+                + getHorasExtra() + ", getValorValeAlimentacaoDiario()=" + getValorValeAlimentacaoDiario()
+                + ", getNumeroDeDependentes()=" + getNumeroDeDependentes() + ", getValorPensaoAlimenticia()="
+                + getValorPensaoAlimenticia() + ", getIdFuncionario()=" + getIdFuncionario() + "]";
+    }
+
+    
     
 }
