@@ -7,6 +7,7 @@ import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 
 @Service
 public class SalarioService {
+
     public double calcularSalarioPorHora(Funcionario funcionario, FolhaRequest request) {
          double salarioBruto = funcionario.getSalarioBruto() == null ? 0.0 : funcionario.getSalarioBruto();
          double horasTrabalhadasPorMes = request.getJornadaMensal();
@@ -22,5 +23,9 @@ public class SalarioService {
         }
         double valorHora = salarioBruto / horasTrabalhadasPorMes;
         return Math.round(valorHora * 100.0) / 100.0;
+    }
+
+    public double calcularSalarioLiquido(double salarioLiquido, double inss, double irrf, double valeTransporte, double valeAlimentacao) {
+        return salarioLiquido - inss - irrf - valeTransporte + valeAlimentacao;
     }
 }

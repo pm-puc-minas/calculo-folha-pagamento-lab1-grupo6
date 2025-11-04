@@ -14,13 +14,13 @@ import br.pucminas.lab1.grupo6.folha.repositories.UserRepository;
 public class FolhaDePagamentoService {
 
     @Autowired
-    private DescontoFactory descontoFactory; //Uso de Factory já? Bom.
+    private DescontoFactory descontoFactory; //Uso de Factory já? Bom.8
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private SalarioService salarioService;
 
     public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request) {
         
@@ -39,11 +39,7 @@ public class FolhaDePagamentoService {
         double irrf = descontoFactory.criarIrrf(funcionario, request).getValorDescontado();
 
         int horasTrabalhadasPorMes = (int) request.getCargaDiaria() * request.getDiasTrabalhados();
-        double salarioLiquido = funcionario.getSalarioBruto()
-                - inss
-                - irrf
-                - valeTransporte
-                + valeAlimentacao;
+        double salarioLiquido = salarioService.calcularSalarioLiquido(horasTrabalhadasPorMes, inss, irrf, valeTransporte, valeAlimentacao);
 
         return new FolhaDePagamento(
                 funcionario,

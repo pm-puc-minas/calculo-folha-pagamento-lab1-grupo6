@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import br.pucminas.lab1.grupo6.folha.domain.enums.Cargo;
 import br.pucminas.lab1.grupo6.folha.domain.enums.GrauInsalubridade;
 import br.pucminas.lab1.grupo6.folha.domain.enums.Periculosidade;
 import br.pucminas.lab1.grupo6.folha.domain.enums.Role;
@@ -15,13 +16,14 @@ import jakarta.persistence.*;
 @Table(name = "funcionarios_tb")
 public class Funcionario extends User {
 
-    private String nome;
-    private String CPF;
-    private String cargo;
     private Double salarioBruto;
 
     @Enumerated(EnumType.STRING)
+    private Cargo cargo;
+    
+    @Enumerated(EnumType.STRING)
     private Periculosidade periculosidade;
+    
     @Enumerated(EnumType.STRING)
     private GrauInsalubridade insalubridade;
 
@@ -31,11 +33,9 @@ public class Funcionario extends User {
     public Funcionario() {
     };
 
-    public Funcionario(UUID id, String nome, String CPF, String cargo, Double salarioBruto,
+    public Funcionario(UUID id, String nome, String CPF, Cargo cargo, Double salarioBruto,
             Periculosidade periculosidade, GrauInsalubridade insalubridade, String email, String password, Role role) {
-        super(id, email, password, role);
-        this.nome = nome;
-        this.CPF = CPF;
+        super(id, email, password, role, nome, CPF);
         this.cargo = cargo;
         this.salarioBruto = salarioBruto;
         this.insalubridade = insalubridade;
@@ -43,27 +43,11 @@ public class Funcionario extends User {
         this.folhasDePagamento = new ArrayList<>();
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCPF() {
-        return CPF;
-    }
-
-    public void setCPF(String cPF) {
-        CPF = cPF;
-    }
-
-    public String getCargo() {
+    public Cargo getCargo() {
         return cargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
 
@@ -118,10 +102,8 @@ public class Funcionario extends User {
 
     @Override
     public String toString() {
-        return "Funcionario [id=" + id + ", nome=" + nome + ", CPF=" + CPF + ", cargo=" + cargo + ", salarioBruto="
-                + salarioBruto + ", getNome()=" + getNome() + ", getCPF()=" + getCPF() + ", getCargo()=" + getCargo()
-                + ", getSalarioBruto()=" + getSalarioBruto() + ", getInsalubridade()=" + getInsalubridade() + ", getPericulosidade()=" + getPericulosidade() + ", hashCode()=" + hashCode() + ", getClass()=" + getClass()
-                + ", toString()=" + super.toString() + "]";
+        return "Funcionario [id=" + id + ", nome=" + getNome() + ", CPF=" + getCPF() + ", cargo=" + cargo + ", salarioBruto="
+                + salarioBruto + "]";
     }
 
 }
