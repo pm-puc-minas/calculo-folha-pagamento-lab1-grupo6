@@ -20,6 +20,6 @@ public class FuncionarioController {
     @PostMapping
     public ResponseEntity<Funcionario> Create(@RequestBody Funcionario funcionario) {
        Funcionario resposta = service.Insert(funcionario);
-       return ResponseEntity.ok().body(resposta); 
+       return ResponseEntity.ok().body(resposta);
     }
 }

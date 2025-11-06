@@ -19,7 +19,7 @@ public class FuncionarioService {
 
     public Funcionario Insert(Funcionario funcionario) {
         Funcionario resposta = repository.save(funcionario);
-        
+
         eventPublisher.publishEvent(new FuncionarioCadastradoEvent(this, resposta));
 
         return resposta;

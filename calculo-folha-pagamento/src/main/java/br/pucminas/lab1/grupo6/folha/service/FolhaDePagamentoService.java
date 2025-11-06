@@ -29,8 +29,8 @@ public class FolhaDePagamentoService {
     private ApplicationEventPublisher eventPublisher;
 
     public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request) {
-        
-        Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario()).get();
+
+        Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario()).orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
 
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
                 ? descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado()
