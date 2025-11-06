@@ -11,7 +11,6 @@ import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
 import br.pucminas.lab1.grupo6.folha.repositories.UserRepository;
-import br.pucminas.lab1.grupo6.folha.domain.event.FolhaDePagamentoGeradaEvent;
 
 @Service
 public class FolhaDePagamentoService {
@@ -60,7 +59,7 @@ public class FolhaDePagamentoService {
                 horasTrabalhadasPorMes
         );
 
-        eventPublisher.publishEvent(new FolhaDePagamentoGeradaEvent(this, folhaGerada));
+        eventPublisher.publishEvent(folhaGerada);
 
         return folhaGerada;
     }

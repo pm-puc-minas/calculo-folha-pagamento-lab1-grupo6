@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import br.pucminas.lab1.grupo6.folha.domain.event.FolhaDePagamentoGeradaEvent;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
 
 @Component
@@ -14,8 +13,7 @@ public class FolhaDePagamentoEventListener {
     private static final Logger logger = LoggerFactory.getLogger(FolhaDePagamentoEventListener.class);
 
     @EventListener
-    public void handleFolhaDePagamentoGerada(FolhaDePagamentoGeradaEvent event) {
-        FolhaDePagamento folha = event.getFolhaDePagamento();
+    public void handleFolhaDePagamentoGerada(FolhaDePagamento folha) {
         
         logger.info(
             "Folha de Pagamento gerada. Funcionário: {}, Mês: {}, Salário Líquido: R$ {}",
