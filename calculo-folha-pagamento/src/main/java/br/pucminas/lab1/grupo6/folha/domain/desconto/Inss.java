@@ -1,5 +1,8 @@
 package br.pucminas.lab1.grupo6.folha.domain.desconto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import br.pucminas.lab1.grupo6.folha.domain.enums.Aliquotas;
 import br.pucminas.lab1.grupo6.folha.domain.enums.Faixas;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
@@ -19,12 +22,12 @@ public class Inss extends Desconto {
         double contribuicaoInss = 0.0;
         double limiteInferior = 0.0;
 
-        Faixas[] faixasSalario = Faixas.values();
-        Aliquotas[] aliquotas = Aliquotas.values();
+        ArrayList<Faixas> faixasSalario = new ArrayList<>(Arrays.asList(Faixas.values()));
+        ArrayList<Aliquotas> aliquotas = new ArrayList<>(Arrays.asList(Aliquotas.values()));
 
-        for(int i = 0; i < faixasSalario.length; i++) {
-            double limiteFaixa = faixasSalario[i].getFaixa();
-            double aliquota = aliquotas[i].getAliquota();
+        for(int i = 0; i < faixasSalario.size(); i++) {
+            double limiteFaixa = faixasSalario.get(i).getFaixa();
+            double aliquota = aliquotas.get(i).getAliquota();
 
             double valorMinimo = Math.min(limiteFaixa, salarioBruto);
             double valorNaFaixa = (valorMinimo - limiteInferior);
