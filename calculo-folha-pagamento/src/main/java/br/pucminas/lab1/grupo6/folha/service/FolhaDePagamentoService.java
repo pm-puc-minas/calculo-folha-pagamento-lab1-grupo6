@@ -2,6 +2,8 @@ package br.pucminas.lab1.grupo6.folha.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.context.ApplicationEventPublisher;
+
 
 import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
@@ -9,6 +11,7 @@ import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
 import br.pucminas.lab1.grupo6.folha.repositories.UserRepository;
+import br.pucminas.lab1.grupo6.folha.domain.event.FolhaDePagamentoGeradaEvent;
 
 @Service
 public class FolhaDePagamentoService {
@@ -21,6 +24,9 @@ public class FolhaDePagamentoService {
 
     @Autowired
     private SalarioService salarioService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request) {
         
@@ -41,7 +47,7 @@ public class FolhaDePagamentoService {
         int horasTrabalhadasPorMes = (int) request.getCargaDiaria() * request.getDiasTrabalhados();
         double salarioLiquido = salarioService.calcularSalarioLiquido(horasTrabalhadasPorMes, inss, irrf, valeTransporte, valeAlimentacao);
 
-        return new FolhaDePagamento(
+        FolhaDePagamento folhaGerada = new FolhaDePagamento(
                 funcionario,
                 request.getMes(),
                 inss,
@@ -53,5 +59,9 @@ public class FolhaDePagamentoService {
                 request.getDiasTrabalhados(),
                 horasTrabalhadasPorMes
         );
+
+        eventPublisher.publishEvent(new FolhaDePagamentoGeradaEvent(this, folhaGerada));
+
+        return folhaGerada;
     }
 }
