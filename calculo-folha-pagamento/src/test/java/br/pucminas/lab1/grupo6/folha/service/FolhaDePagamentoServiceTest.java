@@ -1,16 +1,20 @@
 package br.pucminas.lab1.grupo6.folha.service;
 
+import java.time.YearMonth;
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.time.YearMonth;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.Fgts;
@@ -20,8 +24,10 @@ import br.pucminas.lab1.grupo6.folha.domain.desconto.ValeAlimentacao;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.ValeTransporte;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
+import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("null")
 class FolhaDePagamentoServiceTest {
 
     @Mock
@@ -37,12 +43,17 @@ class FolhaDePagamentoServiceTest {
     @Mock
     private Irrf irrf;
 
-    private FolhaDePagamentoService service;
+    @Mock
+    private FuncionarioRepository funcionarioRepository;
 
-    @BeforeEach
-    void setUp() {
-        service = new FolhaDePagamentoService();
-    }
+    @Mock
+    private SalarioService salarioService;
+
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
+
+    @InjectMocks
+    private FolhaDePagamentoService service;
 
     @Test
     void deveGerarFolhaDePagamentoComDadosCalculados() {
@@ -53,18 +64,27 @@ class FolhaDePagamentoServiceTest {
         request.setMes(YearMonth.of(2024, 6));
         request.setDiasTrabalhados(22);
         request.setCargaDiaria(8);
+        UUID id = UUID.randomUUID();
+        request.setIdFuncionario(id);
+        request.setValeTransporteRecebido(1.0);
+        request.setValorValeAlimentacaoDiario(1.0);
 
-        when(descontoFactory.criarInss(funcionario, request)).thenReturn(inss);
-        when(descontoFactory.criarValeTransporte(funcionario, request)).thenReturn(valeTransporte);
-        when(descontoFactory.criarValeAlimentacao(funcionario, request)).thenReturn(valeAlimentacao);
-        when(descontoFactory.criarFgts(funcionario, request)).thenReturn(fgts);
-        when(descontoFactory.criarIrrf(funcionario, request)).thenReturn(irrf);
+        when(funcionarioRepository.findById(any(UUID.class))).thenReturn(Optional.of(funcionario));
+
+        when(descontoFactory.criarInss(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(inss);
+        when(descontoFactory.criarValeTransporte(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(valeTransporte);
+        when(descontoFactory.criarValeAlimentacao(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(valeAlimentacao);
+        when(descontoFactory.criarFgts(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(fgts);
+        when(descontoFactory.criarIrrf(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(irrf);
 
         when(inss.getValorDescontado()).thenReturn(500.0);
         when(valeTransporte.getValorDescontado()).thenReturn(200.0);
         when(valeAlimentacao.getValorDescontado()).thenReturn(300.0);
         when(fgts.getValorDescontado()).thenReturn(400.0);
         when(irrf.getValorDescontado()).thenReturn(250.0);
+
+        when(salarioService.calcularSalarioLiquido(eq(176.0), eq(500.0), eq(250.0), eq(200.0), eq(300.0)))
+                .thenReturn(4350.0);
 
         var folha = service.gerarFolhaDePagamento(request);
 
@@ -90,18 +110,21 @@ class FolhaDePagamentoServiceTest {
         request.setMes(YearMonth.of(2024, 1));
         request.setDiasTrabalhados(20);
         request.setCargaDiaria(8);
+        UUID id = UUID.randomUUID();
+        request.setIdFuncionario(id);
 
-        when(descontoFactory.criarInss(funcionario, request)).thenReturn(inss);
-        when(descontoFactory.criarValeTransporte(funcionario, request)).thenReturn(valeTransporte);
-        when(descontoFactory.criarValeAlimentacao(funcionario, request)).thenReturn(valeAlimentacao);
-        when(descontoFactory.criarFgts(funcionario, request)).thenReturn(fgts);
-        when(descontoFactory.criarIrrf(funcionario, request)).thenReturn(irrf);
+        when(funcionarioRepository.findById(any(UUID.class))).thenReturn(Optional.of(funcionario));
+
+        when(descontoFactory.criarInss(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(inss);
+        when(descontoFactory.criarFgts(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(fgts);
+        when(descontoFactory.criarIrrf(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(irrf);
 
         when(inss.getValorDescontado()).thenReturn(0.0);
-        when(valeTransporte.getValorDescontado()).thenReturn(0.0);
-        when(valeAlimentacao.getValorDescontado()).thenReturn(0.0);
         when(fgts.getValorDescontado()).thenReturn(0.0);
         when(irrf.getValorDescontado()).thenReturn(0.0);
+
+        when(salarioService.calcularSalarioLiquido(eq(160.0), eq(0.0), eq(0.0), eq(0.0), eq(0.0)))
+                .thenReturn(2000.0);
 
         var folha = service.gerarFolhaDePagamento(request);
 
