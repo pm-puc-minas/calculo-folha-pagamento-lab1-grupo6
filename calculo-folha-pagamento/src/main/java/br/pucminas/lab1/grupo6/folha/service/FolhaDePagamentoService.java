@@ -2,6 +2,8 @@ package br.pucminas.lab1.grupo6.folha.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.context.ApplicationEventPublisher;
+
 
 import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
@@ -21,9 +23,12 @@ public class FolhaDePagamentoService {
     @Autowired
     private SalarioService salarioService;
 
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
     public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request) {
-        
-        Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario()).get();
+
+        Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario()).orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
 
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
                 ? descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado()
@@ -40,7 +45,7 @@ public class FolhaDePagamentoService {
         int horasTrabalhadasPorMes = (int) request.getCargaDiaria() * request.getDiasTrabalhados();
         double salarioLiquido = salarioService.calcularSalarioLiquido(horasTrabalhadasPorMes, inss, irrf, valeTransporte, valeAlimentacao);
 
-        return new FolhaDePagamento(
+        FolhaDePagamento folhaGerada = new FolhaDePagamento(
                 funcionario,
                 request.getMes(),
                 inss,
@@ -52,5 +57,9 @@ public class FolhaDePagamentoService {
                 request.getDiasTrabalhados(),
                 horasTrabalhadasPorMes
         );
+
+        eventPublisher.publishEvent(folhaGerada);
+
+        return folhaGerada;
     }
 }
