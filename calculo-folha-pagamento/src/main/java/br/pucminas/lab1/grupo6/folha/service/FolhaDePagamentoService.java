@@ -8,7 +8,6 @@ import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
-import br.pucminas.lab1.grupo6.folha.repositories.UserRepository;
 
 @Service
 public class FolhaDePagamentoService {
