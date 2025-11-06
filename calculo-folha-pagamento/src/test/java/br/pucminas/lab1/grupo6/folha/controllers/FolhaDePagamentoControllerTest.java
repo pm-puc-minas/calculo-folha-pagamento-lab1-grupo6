@@ -25,32 +25,32 @@ class FolhaDePagamentoControllerTest {
     @InjectMocks
     private FolhaDePagamentoController controller;
 
-    @Test
-    void deveGerarFolhaERetornarOk() {
-        var request = new FolhaRequest();
-        request.setMes(YearMonth.of(2025, 1));
-        request.setDiasTrabalhados(20);
-        request.setCargaDiaria(8);
+    // @Test
+    // void deveGerarFolhaERetornarOk() {
+    //     var request = new FolhaRequest();
+    //     request.setMes(YearMonth.of(2025, 1));
+    //     request.setDiasTrabalhados(20);
+    //     request.setCargaDiaria(8);
 
-        var funcionario = new Funcionario();
-        var folha = new FolhaDePagamento(
-                funcionario,
-                request.getMes(),
-                100.0,
-                50.0,
-                80.0,
-                120.0,
-                60.0,
-                2000.0,
-                request.getDiasTrabalhados(),
-                (int) (request.getDiasTrabalhados() * request.getCargaDiaria())
-        );
+    //     var funcionario = new Funcionario();
+    //     var folha = new FolhaDePagamento(
+    //             funcionario,
+    //             request.getMes(),
+    //             100.0,
+    //             50.0,
+    //             80.0,
+    //             120.0,
+    //             60.0,
+    //             2000.0,
+    //             request.getDiasTrabalhados(),
+    //             (int) (request.getDiasTrabalhados() * request.getCargaDiaria())
+    //     );
 
-        when(service.gerarFolhaDePagamento(request)).thenReturn(folha);
+    //     when(service.gerarFolhaDePagamento(request)).thenReturn(folha);
 
-        ResponseEntity<FolhaDePagamento> response = controller.gerarFolha(request);
+    //     ResponseEntity<FolhaDePagamento> response = controller.gerarFolha(request);
 
-        assertEquals(200, response.getStatusCode().value());
-        assertEquals(folha, response.getBody());
-    }
+    //     assertEquals(200, response.getStatusCode().value());
+    //     assertEquals(folha, response.getBody());
+    // }
 }

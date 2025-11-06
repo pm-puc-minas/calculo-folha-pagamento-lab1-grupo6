@@ -9,7 +9,9 @@ import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
+import br.pucminas.lab1.grupo6.folha.exceptions.UserNotFoundException;
 import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
+import br.pucminas.lab1.grupo6.folha.security.AuthenticatedUser;
 
 @Service
 public class FolhaDePagamentoService {
@@ -26,9 +28,9 @@ public class FolhaDePagamentoService {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request) {
+    public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request, AuthenticatedUser authenticatedUser) {
 
-        Funcionario funcionario = funcionarioRepository.findById(request.getIdFuncionario()).orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
+        Funcionario funcionario = funcionarioRepository.findById(authenticatedUser.getUserEntity().getId()).orElseThrow(() -> new UserNotFoundException("Funcionário não encontrado"));
 
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
                 ? descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado()

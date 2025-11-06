@@ -5,7 +5,6 @@ import java.util.UUID;
 
 public class FolhaRequest {
 
-    private UUID idFuncionario;
     private YearMonth mes;
     private int diasTrabalhados;
     private Double jornadaMensal;
@@ -21,7 +20,7 @@ public class FolhaRequest {
 
     public FolhaRequest(YearMonth mes, int diasTrabalhados, Double jornadaMensal, Double jornadaSemanal,
             Double valeTransporteRecebido, int cargaDiaria, int horasExtra, Double valorValeAlimentacaoDiario,
-            int numeroDeDependentes, Double valorPensaoAlimenticia, UUID idFuncionario) {
+            int numeroDeDependentes, Double valorPensaoAlimenticia) {
         this.mes = mes;
         this.diasTrabalhados = diasTrabalhados;
         this.jornadaMensal = jornadaMensal;
@@ -32,7 +31,6 @@ public class FolhaRequest {
         this.valorValeAlimentacaoDiario = valorValeAlimentacaoDiario;
         this.numeroDeDependentes = numeroDeDependentes;
         this.valorPensaoAlimenticia = valorPensaoAlimenticia;
-        this.idFuncionario = idFuncionario;
     }
     
     public YearMonth getMes() {
@@ -64,13 +62,6 @@ public class FolhaRequest {
     }
     public Double getValorPensaoAlimenticia() {
         return valorPensaoAlimenticia;
-    }
-    public UUID getIdFuncionario() {
-        return idFuncionario;
-    }
-
-    public void setIdFuncionario(UUID idFuncionario) {
-        this.idFuncionario = idFuncionario;
     }
     public void setMes(YearMonth mes) {
         this.mes = mes;
@@ -105,7 +96,7 @@ public class FolhaRequest {
 
     @Override
     public String toString() {
-        return "FolhaRequest [idFuncionario=" + idFuncionario + ", mes=" + mes + ", diasTrabalhados=" + diasTrabalhados
+        return "FolhaRequest [mes=" + mes + ", diasTrabalhados=" + diasTrabalhados
                 + ", jornadaMensal=" + jornadaMensal + ", jornadaSemanal=" + jornadaSemanal
                 + ", valeTransporteRecebido=" + valeTransporteRecebido + ", cargaDiaria=" + cargaDiaria
                 + ", horasExtra=" + horasExtra + ", valorValeAlimentacaoDiario=" + valorValeAlimentacaoDiario
@@ -115,9 +106,7 @@ public class FolhaRequest {
                 + getValeTransporteRecebido() + ", getCargaDiaria()=" + getCargaDiaria() + ", getHorasExtra()="
                 + getHorasExtra() + ", getValorValeAlimentacaoDiario()=" + getValorValeAlimentacaoDiario()
                 + ", getNumeroDeDependentes()=" + getNumeroDeDependentes() + ", getValorPensaoAlimenticia()="
-                + getValorPensaoAlimenticia() + ", getIdFuncionario()=" + getIdFuncionario() + "]";
+                + getValorPensaoAlimenticia() + "]";
     }
 
-    
-    
 }
