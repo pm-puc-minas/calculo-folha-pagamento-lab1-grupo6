@@ -45,11 +45,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         try {
             userId = UUID.fromString(jwtService.extractUserId(token));
         } catch (JwtException e) {  
-            throw e;
+            throw new InvalidTokenException();
         }
 
         if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails;
+            
             try {
                 userDetails = authenticatedUserService.loadUserById(userId);
             } catch (RuntimeException e) {

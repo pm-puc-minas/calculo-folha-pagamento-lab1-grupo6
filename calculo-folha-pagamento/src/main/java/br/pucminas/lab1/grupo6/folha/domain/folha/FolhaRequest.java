@@ -1,7 +1,6 @@
 package br.pucminas.lab1.grupo6.folha.domain.folha;
 
 import java.time.YearMonth;
-import java.util.UUID;
 
 public class FolhaRequest {
 

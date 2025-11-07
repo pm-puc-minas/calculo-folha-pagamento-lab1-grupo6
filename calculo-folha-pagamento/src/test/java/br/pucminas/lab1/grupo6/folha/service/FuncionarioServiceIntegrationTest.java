@@ -34,7 +34,7 @@ public class FuncionarioServiceIntegrationTest {
                                          GrauInsalubridade.NENHUM, "evento@email.com", 
                                          "123", Role.USER);
 
-        Funcionario funcionarioSalvo = funcionarioService.Insert(f1);
+        Funcionario funcionarioSalvo = funcionarioService.insert(f1);
 
         verify(funcionarioEventListener, timeout(1000).times(1))
             .handleFuncionarioCadastrado(funcionarioSalvo);

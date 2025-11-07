@@ -29,7 +29,7 @@ public class FolhaDePagamentoService {
     private ApplicationEventPublisher eventPublisher;
 
     public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request, AuthenticatedUser authenticatedUser) {
-
+        
         Funcionario funcionario = funcionarioRepository.findById(authenticatedUser.getUserEntity().getId()).orElseThrow(() -> new UserNotFoundException("Funcionário não encontrado"));
 
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)

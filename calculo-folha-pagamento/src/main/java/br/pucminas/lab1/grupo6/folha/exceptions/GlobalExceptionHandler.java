@@ -2,6 +2,7 @@ package br.pucminas.lab1.grupo6.folha.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -45,7 +46,13 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(ResourceNotFoundException.class)
   public ResponseEntity<ApiErrorResponse> handleResourceNotFound(ResourceNotFoundException ex,
       HttpServletRequest request) {
-    ApiErrorResponse error = new ApiErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI());
+      ApiErrorResponse error = new ApiErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ApiErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
+    ApiErrorResponse error = new ApiErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 }

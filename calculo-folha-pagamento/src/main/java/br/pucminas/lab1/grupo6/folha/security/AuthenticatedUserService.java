@@ -22,8 +22,8 @@ public class AuthenticatedUserService implements UserDetailsService {
         return new AuthenticatedUser(user);
     }
 
-    public UserDetails loadUserById(UUID Id) {
-        User user = userRepository.findById(Id).orElseThrow(() -> new RuntimeException("User not found."));
+    public UserDetails loadUserById(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found."));
         return new AuthenticatedUser(user);
     }
 

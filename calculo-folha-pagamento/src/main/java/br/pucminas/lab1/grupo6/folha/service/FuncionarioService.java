@@ -16,7 +16,7 @@ public class FuncionarioService {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    public Funcionario Insert(Funcionario funcionario) {
+    public Funcionario insert(Funcionario funcionario) {
         Funcionario resposta = repository.save(funcionario);
 
         eventPublisher.publishEvent(resposta);

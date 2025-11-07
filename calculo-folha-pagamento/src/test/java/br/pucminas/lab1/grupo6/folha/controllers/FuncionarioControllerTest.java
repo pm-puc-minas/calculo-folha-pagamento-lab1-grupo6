@@ -25,7 +25,7 @@ class FuncionarioControllerTest {
     void deveCriarFuncionarioERetornarOk() {
         var funcionario = new Funcionario();
 
-        when(service.Insert(funcionario)).thenReturn(funcionario);
+        when(service.insert(funcionario)).thenReturn(funcionario);
 
         ResponseEntity<Funcionario> response = controller.Create(funcionario);
 

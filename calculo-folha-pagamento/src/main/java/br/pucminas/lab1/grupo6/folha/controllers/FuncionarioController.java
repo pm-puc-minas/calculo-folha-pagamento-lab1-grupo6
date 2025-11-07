@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 import br.pucminas.lab1.grupo6.folha.service.FuncionarioService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/funcionario")
@@ -19,7 +20,7 @@ public class FuncionarioController {
 
     @PostMapping
     public ResponseEntity<Funcionario> Create(@RequestBody Funcionario funcionario) {
-       Funcionario resposta = service.Insert(funcionario);
+       Funcionario resposta = service.insert(funcionario);
        return ResponseEntity.ok().body(resposta);
     }
 }
