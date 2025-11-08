@@ -25,7 +25,7 @@ public class SalarioService {
         return Math.round(valorHora * 100.0) / 100.0;
     }
 
-    public double calcularSalarioLiquido(double salarioLiquido, double inss, double irrf, double valeTransporte, double valeAlimentacao) {
-        return salarioLiquido - inss - irrf - valeTransporte + valeAlimentacao;
+    public double calcularSalarioLiquido(double salarioBruto, double inss, double irrf, double valeTransporte, double valeAlimentacao) {
+        return salarioBruto - inss - irrf - valeTransporte - valeAlimentacao;
     }
 }
