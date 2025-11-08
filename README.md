@@ -22,7 +22,7 @@ Projeto desenvolvido para a disciplina **Programação Modular (2025)**, com foc
 - [Modelagem do Sistema (Cartões CRC, Diagrama de Classes)](calculo-folha-pagamento/docs/modelagem.md)
 - [Prototipo do Projeto](calculo-folha-pagamento/docs/prototipo.md)
 - [Testes Unitários (Planejamento, Implementação e Execução dos Testes)](calculo-folha-pagamento/docs/testes.md)
-- [Implementação de Eventos e Preparação para Integração com Frontend (Sprint 3](calculo-folha-pagamento/docs/sprint3/aplicacoes.md)
+- [Implementação de Eventos e Preparação para Integração com Frontend (Sprint 3)](calculo-folha-pagamento/docs/assets/sprint3/aplicacoes.md)
 
 ---
 
