@@ -54,3 +54,6 @@ Controladores REST criados e rotas definidas:
 | `GET /funcionarios`      | Listar funcionários           |
 | `POST /funcionarios`     | Cadastrar funcionário         |
 | `POST /folha/gerar/{id}` | Gerar folha de um funcionário |
+
+<img src="registrarfuncionario.png">
+<img src="gerarfolha.png">

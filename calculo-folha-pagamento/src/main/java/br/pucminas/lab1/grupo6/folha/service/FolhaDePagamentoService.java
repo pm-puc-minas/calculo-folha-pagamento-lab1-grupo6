@@ -52,8 +52,9 @@ public class FolhaDePagamentoService {
         double irrf = descontoFactory.criarIrrf(funcionario, request).getValorDescontado();
 
         int horasTrabalhadasPorMes = (int) request.getCargaDiaria() * request.getDiasTrabalhados();
-        double salarioLiquido = salarioService.calcularSalarioLiquido(horasTrabalhadasPorMes, inss, irrf, valeTransporte, valeAlimentacao);
-
+        double salarioBruto = funcionario.getSalarioBruto();
+        double salarioLiquido = salarioService.calcularSalarioLiquido(salarioBruto, inss, irrf, valeTransporte, valeAlimentacao);
+        
         FolhaDePagamento folhaGerada = new FolhaDePagamento(
                 funcionario,
                 request.getMes(),
