@@ -1,4 +1,4 @@
-package br.pucminas.lab1.grupo6.folha.domain.folha;
+package br.pucminas.lab1.grupo6.folha.dtos.request;
 
 import java.time.YearMonth;
 

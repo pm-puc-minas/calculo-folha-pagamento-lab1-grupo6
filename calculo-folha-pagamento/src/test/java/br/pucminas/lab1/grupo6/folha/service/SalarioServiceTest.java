@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
-import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
+import br.pucminas.lab1.grupo6.folha.dtos.request.FolhaRequest;
 
 @SpringBootTest
 @ActiveProfiles("test")

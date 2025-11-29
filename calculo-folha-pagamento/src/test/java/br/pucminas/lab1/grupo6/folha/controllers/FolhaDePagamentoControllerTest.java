@@ -12,8 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
-import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
+import br.pucminas.lab1.grupo6.folha.dtos.request.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.security.AuthenticatedUser;
 import br.pucminas.lab1.grupo6.folha.service.FolhaDePagamentoService;
 

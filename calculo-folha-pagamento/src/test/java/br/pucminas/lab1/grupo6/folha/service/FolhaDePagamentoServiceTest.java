@@ -22,8 +22,8 @@ import br.pucminas.lab1.grupo6.folha.domain.desconto.Inss;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.Irrf;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.ValeAlimentacao;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.ValeTransporte;
-import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
+import br.pucminas.lab1.grupo6.folha.dtos.request.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
 import br.pucminas.lab1.grupo6.folha.security.AuthenticatedUser;
 

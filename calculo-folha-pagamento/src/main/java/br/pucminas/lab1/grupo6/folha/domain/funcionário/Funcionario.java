@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.pucminas.lab1.grupo6.folha.domain.enums.Cargo;
 import br.pucminas.lab1.grupo6.folha.domain.enums.GrauInsalubridade;
 import br.pucminas.lab1.grupo6.folha.domain.enums.Periculosidade;
@@ -75,6 +77,18 @@ public class Funcionario extends User {
         this.periculosidade = periculosidade;
     }
 
+    @JsonIgnore
+    public List<FolhaDePagamento> getFolhasDePagamento() {
+        return folhasDePagamento;
+    }
+
+    public void adicionarFolhaDePagamento(FolhaDePagamento folha) {
+        this.folhasDePagamento.add(folha);
+    }
+    public void removerFolhaDePagamento(FolhaDePagamento folha) {
+        this.folhasDePagamento.remove(folha);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -105,5 +119,4 @@ public class Funcionario extends User {
         return "Funcionario [id=" + id + ", nome=" + getNome() + ", CPF=" + getCPF() + ", cargo=" + cargo + ", salarioBruto="
                 + salarioBruto + "]";
     }
-
 }

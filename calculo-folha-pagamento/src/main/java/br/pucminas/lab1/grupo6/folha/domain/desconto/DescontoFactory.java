@@ -2,8 +2,8 @@ package br.pucminas.lab1.grupo6.folha.domain.desconto;
 
 import org.springframework.stereotype.Component;
 
-import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
+import br.pucminas.lab1.grupo6.folha.dtos.request.FolhaRequest;
 
 @Component
 public class DescontoFactory {

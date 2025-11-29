@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import br.pucminas.lab1.grupo6.folha.domain.enums.Aliquotas;
 import br.pucminas.lab1.grupo6.folha.domain.enums.Faixas;
-import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaRequest;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
+import br.pucminas.lab1.grupo6.folha.dtos.request.FolhaRequest;
 
 public class Inss extends Desconto {
 
