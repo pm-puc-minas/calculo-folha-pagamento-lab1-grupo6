@@ -17,12 +17,12 @@ Projeto desenvolvido para a disciplina **Programação Modular (2025)**, com foc
 
 ## 📑 Sumário da Documentação
 
-- [Aplicações de POO (Herança, Interface, Polimorfismo, Classe Abstrata)](calculo-folha-pagamento/docs/aplicacoes-poo.md)
-- [Arquitetura do Sistema (Visão Geral, Estrutura de Pastas)](calculo-folha-pagamento/docs/arquitetura.md)
-- [Modelagem do Sistema (Cartões CRC, Diagrama de Classes)](calculo-folha-pagamento/docs/modelagem.md)
-- [Prototipo do Projeto](calculo-folha-pagamento/docs/prototipo.md)
-- [Testes Unitários (Planejamento, Implementação e Execução dos Testes)](calculo-folha-pagamento/docs/testes.md)
-- [Implementação de Eventos e Preparação para Integração com Frontend (Sprint 3)](calculo-folha-pagamento/docs/assets/sprint3/aplicacoes.md)
+- [Aplicações de POO (Herança, Interface, Polimorfismo, Classe Abstrata)](./docs/aplicacoes-poo.md)
+- [Arquitetura do Sistema (Visão Geral, Estrutura de Pastas)](./docs/arquitetura.md)
+- [Modelagem do Sistema (Cartões CRC, Diagrama de Classes)](./docs/modelagem.md)
+- [Prototipo do Projeto](./docs/prototipo.md)
+- [Testes Unitários (Planejamento, Implementação e Execução dos Testes)](./docs/testes.md)
+- [Implementação de Eventos e Preparação para Integração com Frontend (Sprint 3)](./docs/assets/sprint3/aplicacoes.md)
 
 ---
 
