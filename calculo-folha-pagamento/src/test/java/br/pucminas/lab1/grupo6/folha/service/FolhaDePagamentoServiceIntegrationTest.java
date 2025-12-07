@@ -23,7 +23,7 @@ import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
 import br.pucminas.lab1.grupo6.folha.security.AuthenticatedUser;
 
 @ExtendWith(MockitoExtension.class)
-class FolhaDePagamentoServiceTest {
+class FolhaDePagamentoServiceIntegrationTest {
 
     @Mock
     private FuncionarioRepository funcionarioRepository;
