@@ -50,3 +50,12 @@ Projeto desenvolvido para a disciplina **Programação Modular (2025)**, com foc
 ---
 
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=20318317&assignment_repo_type=AssignmentRepo)
+
+---
+
+## Execução (perfil dev)
+
+- Backend: `./mvnw spring-boot:run -Dspring-boot.run.profiles=dev` (Windows: `./mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=dev`)
+- Frontend: `cd frontend; npm install; npm run dev`
+- Credenciais admin pré-criadas no perfil `dev`: usuário `email@email.com` e senha `123` (papel ADMIN). Há também o usuário `admin@admin.com` com senha `admin`.
+- Banco H2 em arquivo (`data/testdb`); ao subir com o perfil `dev` os dados de exemplo são criados automaticamente se o repositório de usuários estiver vazio.
