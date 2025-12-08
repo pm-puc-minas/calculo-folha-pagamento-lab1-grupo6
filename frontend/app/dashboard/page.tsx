@@ -41,8 +41,11 @@ export default function Dashboard() {
           {folhas.length === 0 ? (
             <p>Nenhuma folha encontrada.</p>
           ) : (
-            folhas.map((folha) => (
-              <div key={folha.id} className="border p-6 rounded bg-white shadow">
+            folhas.map((folha, idx) => (
+              <div
+                key={folha.idFolha ?? folha.id ?? `${folha.mes}-${idx}`}
+                className="border p-6 rounded bg-white shadow"
+              >
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-600">Mês/Ano</p>
@@ -54,12 +57,15 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <p className="text-gray-600">Salário Bruto</p>
-                    <p className="font-bold">R$ {folha.funcionario?.salarioBruto?.toFixed(2)}</p>
+                    <p className="font-bold">R$ {folha.salarioBruto?.toFixed(2)}</p>
                   </div>
                   <div>
                     <p className="text-gray-600">Descontos</p>
-                    <p className="text-sm">INSS: R$ {folha.inss?.toFixed(2)}</p>
-                    <p className="text-sm">IRRF: R$ {folha.irrf?.toFixed(2)}</p>
+                    <p className="text-sm">INSS: R$ {folha.valorDeDescontoINSS?.toFixed(2)}</p>
+                    <p className="text-sm">IRRF: R$ {folha.valorDeDescontoIRRF?.toFixed(2)}</p>
+                    <p className="text-sm">FGTS: R$ {folha.valorDeDescontoFGTS?.toFixed(2)}</p>
+                    <p className="text-sm">VT: R$ {folha.valorDeDescontoVT?.toFixed(2)}</p>
+                    <p className="text-sm">VA: R$ {folha.valorDeDescontoVA?.toFixed(2)}</p>
                   </div>
                 </div>
               </div>

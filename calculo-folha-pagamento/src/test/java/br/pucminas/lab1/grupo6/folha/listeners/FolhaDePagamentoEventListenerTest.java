@@ -34,6 +34,7 @@ class FolhaDePagamentoEventListenerTest {
             80.0,
             120.0,
             60.0,
+            1500.0,
             1234.56,
             20,
             160

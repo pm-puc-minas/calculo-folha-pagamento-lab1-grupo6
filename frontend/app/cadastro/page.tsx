@@ -36,7 +36,7 @@ export default function Cadastro() {
   };
 
   return (
-    <div className="bg-gray-50 h-[80vh] w-full flex items-center justify-center py-10">
+    <div className="bg-gray-50 h-full w-full flex items-center justify-center py-10">
       <div className="flex flex-col items-center gap-5 w-full max-w-2xl">
         <h1 className="text-3xl font-bold text-gray-800">Cadastro</h1>
         <form

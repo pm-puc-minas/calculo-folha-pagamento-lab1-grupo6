@@ -1,7 +1,6 @@
 package br.pucminas.lab1.grupo6.folha.service;
 
 import java.time.YearMonth;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,10 +21,14 @@ import br.pucminas.lab1.grupo6.folha.domain.desconto.Inss;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.Irrf;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.ValeAlimentacao;
 import br.pucminas.lab1.grupo6.folha.domain.desconto.ValeTransporte;
+import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
+import br.pucminas.lab1.grupo6.folha.domain.enums.Cargo;
+import br.pucminas.lab1.grupo6.folha.domain.enums.GrauInsalubridade;
+import br.pucminas.lab1.grupo6.folha.domain.enums.Periculosidade;
+import br.pucminas.lab1.grupo6.folha.domain.enums.Role;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 import br.pucminas.lab1.grupo6.folha.dtos.request.FolhaRequest;
-import br.pucminas.lab1.grupo6.folha.repositories.FuncionarioRepository;
-import br.pucminas.lab1.grupo6.folha.security.AuthenticatedUser;
+import br.pucminas.lab1.grupo6.folha.repositories.FolhaDePagamentoRepository;
 
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("null")
@@ -45,7 +48,10 @@ class FolhaDePagamentoServiceTest {
     private Irrf irrf;
 
     @Mock
-    private FuncionarioRepository funcionarioRepository;
+    private FuncionarioService funcionarioService;
+
+    @Mock
+    private FolhaDePagamentoRepository folhaDePagamentoRepository;
 
     @Mock
     private SalarioService salarioService;
@@ -60,11 +66,18 @@ class FolhaDePagamentoServiceTest {
     void deveGerarFolhaDePagamentoComDadosCalculados() {
 
         
-        var funcionario = new Funcionario();
-        funcionario.setSalarioBruto(5000.0);
+        var funcionario = new Funcionario(
+            UUID.randomUUID(),
+            "Nome",
+            "12345678900",
+            Cargo.ANALISTA,
+            5000.0,
+            Periculosidade.NAO,
+            GrauInsalubridade.NENHUM,
+            "email@test.com",
+            "pwd",
+            Role.USER);
         
-        AuthenticatedUser authenticatedUser = new AuthenticatedUser(funcionario);
-
         var request = new FolhaRequest();
         request.setMes(YearMonth.of(2024, 6));
         request.setDiasTrabalhados(22);
@@ -72,7 +85,7 @@ class FolhaDePagamentoServiceTest {
         request.setValeTransporteRecebido(1.0);
         request.setValorValeAlimentacaoDiario(1.0);
 
-        when(funcionarioRepository.findById(any(UUID.class))).thenReturn(Optional.of(funcionario));
+        when(funcionarioService.findById(any(UUID.class))).thenReturn(funcionario);
 
         when(descontoFactory.criarInss(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(inss);
         when(descontoFactory.criarValeTransporte(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(valeTransporte);
@@ -80,16 +93,18 @@ class FolhaDePagamentoServiceTest {
         when(descontoFactory.criarFgts(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(fgts);
         when(descontoFactory.criarIrrf(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(irrf);
 
+        when(folhaDePagamentoRepository.save(any(FolhaDePagamento.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
         when(inss.getValorDescontado()).thenReturn(500.0);
         when(valeTransporte.getValorDescontado()).thenReturn(200.0);
         when(valeAlimentacao.getValorDescontado()).thenReturn(300.0);
         when(fgts.getValorDescontado()).thenReturn(400.0);
         when(irrf.getValorDescontado()).thenReturn(250.0);
 
-        when(salarioService.calcularSalarioLiquido(eq(176.0), eq(500.0), eq(250.0), eq(200.0), eq(300.0)))
+        when(salarioService.calcularSalarioLiquido(eq(5000.0), eq(500.0), eq(250.0), eq(200.0), eq(300.0)))
                 .thenReturn(4350.0);
 
-        var folha = service.gerarFolhaDePagamento(request, authenticatedUser);
+        var folha = service.gerarFolhaDePagamento(request, UUID.randomUUID());
 
         assertNotNull(folha);
         assertEquals(funcionario, folha.getFuncionario());
@@ -106,30 +121,39 @@ class FolhaDePagamentoServiceTest {
 
     @Test
     void deveGerarFolhaDePagamentoQuandoNaoHaDescontos() {
-        var funcionario = new Funcionario();
-        funcionario.setSalarioBruto(2000.0);
-
-        AuthenticatedUser authenticatedUser = new AuthenticatedUser(funcionario);
+        var funcionario = new Funcionario(
+            UUID.randomUUID(),
+            "Nome",
+            "12345678900",
+            Cargo.ANALISTA,
+            2000.0,
+            Periculosidade.NAO,
+            GrauInsalubridade.NENHUM,
+            "email@test.com",
+            "pwd",
+            Role.USER);
 
         var request = new FolhaRequest();
         request.setMes(YearMonth.of(2024, 1));
         request.setDiasTrabalhados(20);
         request.setCargaDiaria(8);
 
-        when(funcionarioRepository.findById(any(UUID.class))).thenReturn(Optional.of(funcionario));
+        when(funcionarioService.findById(any(UUID.class))).thenReturn(funcionario);
 
         when(descontoFactory.criarInss(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(inss);
         when(descontoFactory.criarFgts(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(fgts);
         when(descontoFactory.criarIrrf(any(Funcionario.class), any(FolhaRequest.class))).thenReturn(irrf);
 
+        when(folhaDePagamentoRepository.save(any(FolhaDePagamento.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
         when(inss.getValorDescontado()).thenReturn(0.0);
         when(fgts.getValorDescontado()).thenReturn(0.0);
         when(irrf.getValorDescontado()).thenReturn(0.0);
 
-        when(salarioService.calcularSalarioLiquido(eq(160.0), eq(0.0), eq(0.0), eq(0.0), eq(0.0)))
-                .thenReturn(2000.0);
+        when(salarioService.calcularSalarioLiquido(eq(2000.0), eq(0.0), eq(0.0), eq(0.0), eq(0.0)))
+            .thenReturn(2000.0);
 
-        var folha = service.gerarFolhaDePagamento(request, authenticatedUser);
+        var folha = service.gerarFolhaDePagamento(request, UUID.randomUUID());
 
         assertNotNull(folha);
         assertEquals(2000.0, folha.getSalarioLiquido());
