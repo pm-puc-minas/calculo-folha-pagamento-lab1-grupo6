@@ -33,6 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
 
+        try {
+
         final String authHeader = request.getHeader("Authorization");
 
         if(authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -70,6 +72,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         }
 
         filterChain.doFilter(request, response);
+        } catch (InvalidTokenException | UserNotFoundException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token inválido ou expirado.");
+        }
     }
 
 }

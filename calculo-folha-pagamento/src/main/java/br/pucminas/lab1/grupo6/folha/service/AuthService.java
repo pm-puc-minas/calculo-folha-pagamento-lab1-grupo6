@@ -47,6 +47,10 @@ public class AuthService {
             throw new InvalidRequestException();
         }
 
+        if (funcionario.getRole() == null) {
+            funcionario.setRole(br.pucminas.lab1.grupo6.folha.domain.enums.Role.USER);
+        }
+
         funcionario.setPassword(passwordEncoder.encode(funcionario.getPassword()));
 
         Funcionario resposta;
