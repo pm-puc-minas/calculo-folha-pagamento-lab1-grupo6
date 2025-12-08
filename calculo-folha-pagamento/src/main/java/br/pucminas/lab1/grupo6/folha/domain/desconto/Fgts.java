@@ -13,7 +13,7 @@ public class Fgts extends Desconto {
 
     @Override
     public Double calcular(Funcionario funcionario, FolhaRequest folhaRequest) {
-        Double oitoPorCentroDoSalario = (funcionario.getSalarioBruto() * PORCENTAGEM_DESCONTO);
-        return oitoPorCentroDoSalario;
+        Double oitoPorCentoDoSalario = (funcionario.getSalarioBruto() * PORCENTAGEM_DESCONTO);
+        return oitoPorCentoDoSalario;
     }
 }
