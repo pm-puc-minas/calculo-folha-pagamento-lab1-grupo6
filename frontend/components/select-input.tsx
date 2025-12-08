@@ -35,11 +35,12 @@ export default function SelectInput({
       <select
         id={id}
         required={required}
+        defaultValue=""
         {...register}
         className="mt-1 block w-full border-b border-b-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm outline-none pb-2 text-black bg-transparent"
       >
         {placeholder && (
-          <option value="" disabled selected>
+          <option value="" disabled>
             {placeholder}
           </option>
         )}
