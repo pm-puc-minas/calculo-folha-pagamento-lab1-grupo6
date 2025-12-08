@@ -5,7 +5,13 @@ import java.time.YearMonth;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity //Anotação que indica que a entidade será uma tabela no banco de dados
 @Table (name = "FolhaDePagamento") //Anotação que define o nome da tabela no banco de dados
@@ -16,6 +22,7 @@ public class FolhaDePagamento{
     private int idFolha;
 
     private YearMonth mes;
+    private Double salarioBruto;
     private Double valorDeDescontoINSS;
     private Double valorDeDescontoVT;
     private Double valorDeDescontoVA;
@@ -32,9 +39,10 @@ public class FolhaDePagamento{
 
     public FolhaDePagamento(){}
 
-    public FolhaDePagamento (Funcionario funcionario, YearMonth mes, Double valorDeDescontoINSS, Double valorDeDescontoVT, Double valorDeDescontoVA, Double valorDeDescontoFGTS, Double valorDeDescontoIRRF, Double salarioLiquido, int diasTrabalhados, int horasTrabalhadas){
+    public FolhaDePagamento (Funcionario funcionario, YearMonth mes, Double salarioBruto, Double valorDeDescontoINSS, Double valorDeDescontoVT, Double valorDeDescontoVA, Double valorDeDescontoFGTS, Double valorDeDescontoIRRF, Double salarioLiquido, int diasTrabalhados, int horasTrabalhadas){
         this.funcionario = funcionario;
         this.mes = mes;
+        this.salarioBruto = salarioBruto;
         this.valorDeDescontoINSS = valorDeDescontoINSS;
         this.valorDeDescontoVT = valorDeDescontoVT;
         this.valorDeDescontoVA = valorDeDescontoVA;
@@ -43,6 +51,14 @@ public class FolhaDePagamento{
         this.salarioLiquido = salarioLiquido;
         this.diasTrabalhados = diasTrabalhados;
         this.horasTrabalhadas = horasTrabalhadas;
+    }
+
+    public Double getSalarioBruto() {
+        return salarioBruto;
+    }
+
+    public void setSalarioBruto(Double salarioBruto) {
+        this.salarioBruto = salarioBruto;
     }
 
     public int getIdFolha () { return idFolha; }

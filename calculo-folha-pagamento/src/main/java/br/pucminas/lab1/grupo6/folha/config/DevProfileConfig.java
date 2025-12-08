@@ -40,13 +40,17 @@ public class DevProfileConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         
+        if (userRepository.count() > 0) {
+            return;
+        }
+
         Funcionario f1 = new Funcionario(null, "nome", "123", Cargo.ANALISTA, 3000.0, Periculosidade.SIM, GrauInsalubridade.MEDIO, "email@email.com", passwordEncoder.encode("123"), Role.ADMIN);
         funcionarioRepository.saveAll(Arrays.asList(f1));
 
-        FolhaDePagamento folha1 = new FolhaDePagamento(f1, YearMonth.of(2024, 5), 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
-        FolhaDePagamento folha2 = new FolhaDePagamento(f1, YearMonth.of(2024, 6), 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
-        FolhaDePagamento folha3 = new FolhaDePagamento(f1, YearMonth.of(2024, 7), 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
-        FolhaDePagamento folha4 = new FolhaDePagamento(f1, YearMonth.of(2024, 8), 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
+        FolhaDePagamento folha1 = new FolhaDePagamento(f1, YearMonth.of(2024, 5), 3000.0, 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
+        FolhaDePagamento folha2 = new FolhaDePagamento(f1, YearMonth.of(2024, 6), 3000.0, 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
+        FolhaDePagamento folha3 = new FolhaDePagamento(f1, YearMonth.of(2024, 7), 3000.0, 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
+        FolhaDePagamento folha4 = new FolhaDePagamento(f1, YearMonth.of(2024, 8), 3000.0, 300.0, 150.0, 200.0, 240.0, 100.0, 2200.0, 22, 160);
         folhaDePagamentoRepository.saveAll(Arrays.asList(folha1, folha2, folha3, folha4));
 
         User admin = new User(null, "admin@admin.com", passwordEncoder.encode("admin"), Role.ADMIN, "admin", "12345");
