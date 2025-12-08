@@ -1,9 +1,11 @@
 package br.pucminas.lab1.grupo6.folha.dtos.request;
 
 import java.time.YearMonth;
+import java.util.UUID;
 
 public class FolhaRequest {
 
+    private UUID funcionarioId;
     private YearMonth mes;
     private int diasTrabalhados;
     private Double jornadaMensal;
@@ -17,9 +19,10 @@ public class FolhaRequest {
 
     public FolhaRequest() {}
 
-    public FolhaRequest(YearMonth mes, int diasTrabalhados, Double jornadaMensal, Double jornadaSemanal,
+    public FolhaRequest(UUID funcionarioId, YearMonth mes, int diasTrabalhados, Double jornadaMensal, Double jornadaSemanal,
             Double valeTransporteRecebido, int cargaDiaria, int horasExtra, Double valorValeAlimentacaoDiario,
             int numeroDeDependentes, Double valorPensaoAlimenticia) {
+        this.funcionarioId = funcionarioId;
         this.mes = mes;
         this.diasTrabalhados = diasTrabalhados;
         this.jornadaMensal = jornadaMensal;
@@ -32,6 +35,10 @@ public class FolhaRequest {
         this.valorPensaoAlimenticia = valorPensaoAlimenticia;
     }
     
+    public UUID getFuncionarioId() {
+        return funcionarioId;
+    }
+
     public YearMonth getMes() {
         return mes;
     }

@@ -19,8 +19,8 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(InvalidTokenException.class)
   public ResponseEntity<ApiErrorResponse> handleInvalidToken(InvalidTokenException ex, HttpServletRequest request) {
-    ApiErrorResponse error = new ApiErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request.getRequestURI());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    ApiErrorResponse error = new ApiErrorResponse(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getRequestURI());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
   }
 
   @ExceptionHandler(DuplicateResourceException.class)
@@ -54,5 +54,15 @@ public class GlobalExceptionHandler {
   public ResponseEntity<ApiErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpServletRequest request) {
     ApiErrorResponse error = new ApiErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+  }
+
+  @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+  public ResponseEntity<ApiErrorResponse> handleDataIntegrityViolation(org.springframework.dao.DataIntegrityViolationException ex, HttpServletRequest request) {
+    String message = "Erro de integridade de dados. Verifique se o registro já existe (ex: CPF ou Email duplicado).";
+    if (ex.getMessage() != null && ex.getMessage().contains("CPF")) {
+        message = "CPF já cadastrado no sistema.";
+    }
+    ApiErrorResponse error = new ApiErrorResponse(HttpStatus.CONFLICT, message, request.getRequestURI());
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
   }
 }

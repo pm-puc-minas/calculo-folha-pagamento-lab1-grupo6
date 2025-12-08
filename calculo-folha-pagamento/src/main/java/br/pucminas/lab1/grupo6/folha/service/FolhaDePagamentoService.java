@@ -1,17 +1,17 @@
 package br.pucminas.lab1.grupo6.folha.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.context.ApplicationEventPublisher;
-
+import org.springframework.stereotype.Service;
 
 import br.pucminas.lab1.grupo6.folha.domain.desconto.DescontoFactory;
+import br.pucminas.lab1.grupo6.folha.domain.enums.Role;
 import br.pucminas.lab1.grupo6.folha.domain.folha.FolhaDePagamento;
 import br.pucminas.lab1.grupo6.folha.domain.funcionário.Funcionario;
 import br.pucminas.lab1.grupo6.folha.dtos.request.FolhaRequest;
-import br.pucminas.lab1.grupo6.folha.exceptions.ResourceNotFoundException;
 import br.pucminas.lab1.grupo6.folha.repositories.FolhaDePagamentoRepository;
 import br.pucminas.lab1.grupo6.folha.security.AuthenticatedUser;
 import jakarta.transaction.Transactional;
@@ -35,9 +35,9 @@ public class FolhaDePagamentoService {
     private FolhaDePagamentoRepository folhaDePagamentoRepository;
 
     @Transactional
-    public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request, AuthenticatedUser authenticatedUser) {
+    public FolhaDePagamento gerarFolhaDePagamento(FolhaRequest request, UUID funcionarioId) {
         
-        Funcionario funcionario = funcionarioService.findById(authenticatedUser.getUserEntity().getId());
+        Funcionario funcionario = funcionarioService.findById(funcionarioId);
 
         double valeTransporte = (request.getValeTransporteRecebido() != null && request.getValeTransporteRecebido() > 0)
                 ? descontoFactory.criarValeTransporte(funcionario, request).getValorDescontado()
@@ -58,6 +58,7 @@ public class FolhaDePagamentoService {
         FolhaDePagamento folhaGerada = new FolhaDePagamento(
                 funcionario,
                 request.getMes(),
+                salarioBruto,
                 inss,
                 valeTransporte,
                 valeAlimentacao,
@@ -76,10 +77,22 @@ public class FolhaDePagamentoService {
     }
 
     public List<FolhaDePagamento> getAllFolhasPorFuncionarioAutenticado(AuthenticatedUser authenticatedUser) {
+        if (authenticatedUser.getUserEntity().getRole() == Role.ADMIN) {
+            return folhaDePagamentoRepository.findAll();
+        }
         Funcionario funcionario = funcionarioService.findById(authenticatedUser.getUserEntity().getId());
         List<FolhaDePagamento> folhas = funcionario.getFolhasDePagamento();
         if (folhas == null || folhas.isEmpty()) {
-                throw new ResourceNotFoundException("Nenhuma folha de pagamento encontrada. [id do funcionário: " + authenticatedUser.getUserEntity().getId() + "]");
+            return List.of();
+        }
+        return folhas;
+    }
+
+    public List<FolhaDePagamento> getFolhasPorFuncionarioId(UUID funcionarioId) {
+        Funcionario funcionario = funcionarioService.findById(funcionarioId);
+        List<FolhaDePagamento> folhas = funcionario.getFolhasDePagamento();
+        if (folhas == null || folhas.isEmpty()) {
+            return List.of();
         }
         return folhas;
     }
