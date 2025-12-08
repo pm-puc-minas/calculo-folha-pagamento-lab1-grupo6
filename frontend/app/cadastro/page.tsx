@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/button";
-import { Header } from "@/components/header";
 import Input from "@/components/input";
 import SelectInput from "@/components/select-input";
 import login from "@/domain/login";
@@ -13,8 +12,10 @@ import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
 export default function Cadastro() {
+  const { data: session } = useSession();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const {
@@ -25,32 +26,32 @@ export default function Cadastro() {
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      await registerUser(data as User);
+      await registerUser(data as User, session?.idToken);
       toast.success("Cadastro realizado com sucesso!");
       router.push("/");
     } catch (error: any) {
-      toast.error(error.message || "Erro ao realizar cadastro");
+      const msg = error.response?.data?.message || error.message || "Erro ao realizar cadastro";
+      toast.error(msg);
     }
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen max-w-screen flex items-center flex-col gap-20 pb-5">
-      <Header />
-      <div className="flex flex-col items-center gap-5 w-1/2">
-        <h1 className="text-black font-bold">Cadastrar funcionário</h1>
+    <div className="bg-gray-50 h-[80vh] w-full flex items-center justify-center py-10">
+      <div className="flex flex-col items-center gap-5 w-full max-w-2xl">
+        <h1 className="text-3xl font-bold text-gray-800">Cadastro</h1>
         <form
-          className="border-gray-200 rounded border p-5 gap-10 flex flex-col w-full"
+          className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 w-full flex flex-col gap-6"
           onSubmit={handleSubmit(onSubmit)}
         >
           <Input
             label="Nome"
             type="text"
-            id="name"
+            id="nome"
             placeholder="Nome completo"
-            register={register("name", {
+            register={register("nome", {
               required: "O nome é obrigatório",
             })}
-            error={errors.name?.message as string}
+            error={errors.nome?.message as string}
           />
           <Input
             label="Email"
@@ -89,6 +90,7 @@ export default function Cadastro() {
             placeholder="Salário bruto do funcionário"
             register={register("salarioBruto", {
               required: "O salário bruto é obrigatório",
+              min: { value: 0, message: "O salário não pode ser negativo" }
             })}
             error={errors.salarioBruto?.message as string}
           />
@@ -96,9 +98,13 @@ export default function Cadastro() {
             label="CPF"
             type="text"
             id="cpf"
-            placeholder="CPF do funcionário"
+            placeholder="000.000.000-00"
             register={register("cpf", {
               required: "O CPF é obrigatório",
+              pattern: {
+                value: /^\d{3}\.\d{3}\.\d{3}-\d{2}$|^\d{11}$/,
+                message: "CPF inválido (use 11 dígitos ou formato 000.000.000-00)"
+              }
             })}
             error={errors.cpf?.message as string}
           />

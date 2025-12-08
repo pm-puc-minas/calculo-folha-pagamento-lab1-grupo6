@@ -1,508 +1,267 @@
 "use client";
 
-import { useState } from "react";
-import { useForm, FieldValues } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import Input from "@/components/input";
-import SelectInput from "@/components/select-input";
 import { Button } from "@/components/button";
-import { Header } from "@/components/header";
+import Step1 from "./steps/step1";
+import Step2 from "./steps/step2";
+import Step3 from "./steps/step3";
+import Step4 from "./steps/step4";
 import { toast } from "react-toastify";
 
-export default function FolhaPage() {
+export default function FolhaPagamento() {
   const { data: session } = useSession();
-
   const [step, setStep] = useState(1);
+  const [funcionarios, setFuncionarios] = useState<any[]>([]);
+  const [selectedFuncionario, setSelectedFuncionario] = useState<any>(null);
   const [resultado, setResultado] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  /** --------------------
-   * FORMATAÇÃO DE NÚMEROS
-   ----------------------*/
-  function formatNumberInput(value: string): string {
-    value = value.replace(/[^\d.,]/g, "");
-    value = value.replace(",", ".");
-    const parts = value.split(".");
-    if (parts.length > 2) {
-      value = parts.shift() + "." + parts.join("");
-    }
-    if (value.startsWith(".")) value = "0" + value;
-    return value;
-  }
-
-  /** --------------------
-   * REACT-HOOK-FORM SETUP
-   ----------------------*/
-  const {
-    register,
-    handleSubmit,
-    trigger,
-    watch,
-    formState: { errors },
-  } = useForm({
+  const methods = useForm({
     defaultValues: {
-      periculosidade: "",
-      insalubridade: "",
-      valorValeAlimentacaoDiario: "",
-      valeTransporteRecebido: "",
-      numeroDeDependentes: "",
-      valorPensaoAlimenticia: "",
-      diasTrabalhados: "",
-      cargaDiaria: "",
-      jornadaMensal: "",
-      jornadaSemanal: "",
-      horasExtra: "",
-      year: "",
+      funcionarioId: "",
       month: "",
-      monthValue: "",
-      leapYear: false,
+      year: new Date().getFullYear(),
+      diasTrabalhados: 22,
+      jornadaSemanal: 44,
+      periculosidade: "NAO",
+      insalubridade: "NAO",
+      valeTransporteRecebido: "",
+      valorValeAlimentacaoDiario: "",
+      numeroDeDependentes: 0,
+      valorPensaoAlimenticia: "",
     },
   });
 
-  /** --------------------
-   * ETAPAS DO FORMULÁRIO
-   ----------------------*/
+  const { watch, trigger, handleSubmit } = methods;
+  const funcionarioId = watch("funcionarioId");
 
-  const goNext = async () => {
-    let fieldsToValidate: string[] = [];
+  const meses = [
+    { id: "JANUARY", value: "Janeiro" }, { id: "FEBRUARY", value: "Fevereiro" },
+    { id: "MARCH", value: "Março" }, { id: "APRIL", value: "Abril" },
+    { id: "MAY", value: "Maio" }, { id: "JUNE", value: "Junho" },
+    { id: "JULY", value: "Julho" }, { id: "AUGUST", value: "Agosto" },
+    { id: "SEPTEMBER", value: "Setembro" }, { id: "OCTOBER", value: "Outubro" },
+    { id: "NOVEMBER", value: "Novembro" }, { id: "DECEMBER", value: "Dezembro" }
+  ];
 
-    if (step === 1) fieldsToValidate = ["periculosidade", "insalubridade"];
-    if (step === 2)
-      fieldsToValidate = [
-        "valorValeAlimentacaoDiario",
-        "valeTransporteRecebido",
-        "numeroDeDependentes",
-        "valorPensaoAlimenticia",
-      ];
-    if (step === 3)
-      fieldsToValidate = [
-        "year",
-        "month",
-        "monthValue",
-        "diasTrabalhados",
-        "cargaDiaria",
-        "jornadaMensal",
-        "jornadaSemanal",
-        "horasExtra",
-      ];
+  const [historico, setHistorico] = useState<any[]>([]);
 
-    const valid = await trigger(fieldsToValidate);
-    if (!valid) {
-      toast.error("Preencha todos os campos obrigatórios antes de prosseguir.");
+  useEffect(() => {
+    async function fetchFuncionarios() {
+      if (session?.user?.role === "ADMIN" && session?.idToken) {
+        try {
+           const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/funcionario`, {
+             headers: { Authorization: `Bearer ${session.idToken}` }
+           });
+           const data = await res.json();
+           setFuncionarios(data);
+        } catch (error) {
+          console.error("Erro ao buscar funcionários", error);
+        }
+      }
+    }
+    fetchFuncionarios();
+  }, [session]);
+
+  useEffect(() => {
+    if (funcionarioId) {
+      const func = funcionarios.find((f) => f.id.toString() === funcionarioId);
+      setSelectedFuncionario(func);
+      
+      // Fetch history for this employee
+      if (session?.idToken) {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/folha/folhas/${funcionarioId}`, {
+          headers: { Authorization: `Bearer ${session.idToken}` }
+        })
+        .then(res => {
+          if (res.ok) return res.json();
+          return [];
+        })
+        .then(data => setHistorico(data))
+        .catch(err => console.error("Erro ao buscar histórico", err));
+      }
+    } else {
+      setHistorico([]);
+    }
+  }, [funcionarioId, funcionarios, session]);
+
+  const handleNext = async () => {
+    let isValid = false;
+
+    if (step === 1) {
+      isValid = await trigger(["funcionarioId", "month", "year", "diasTrabalhados", "jornadaSemanal"]);
+    } else if (step === 2) {
+      isValid = await trigger(["periculosidade", "insalubridade"]);
+    } else if (step === 3) {
+      await handleSubmit(onSubmit)();
       return;
     }
 
-    setStep((s) => Math.min(4, s + 1));
+    if (isValid) {
+      setStep((prev) => prev + 1);
+    }
   };
 
-  const goPrev = () => setStep((s) => Math.max(1, s - 1));
+  const handleBack = () => {
+    setStep((prev) => prev - 1);
+  };
 
-  const meses = [
-    { id: "JANUARY", value: "Janeiro" },
-    { id: "FEBRUARY", value: "Fevereiro" },
-    { id: "MARCH", value: "Março" },
-    { id: "APRIL", value: "Abril" },
-    { id: "MAY", value: "Maio" },
-    { id: "JUNE", value: "Junho" },
-    { id: "JULY", value: "Julho" },
-    { id: "AUGUST", value: "Agosto" },
-    { id: "SEPTEMBER", value: "Setembro" },
-    { id: "OCTOBER", value: "Outubro" },
-    { id: "NOVEMBER", value: "Novembro" },
-    { id: "DECEMBER", value: "Dezembro" },
-  ];
-
-  /** --------------------
-   * ENVIO FINAL
-   ----------------------*/
-
-  const onFinalSubmit = async (data: FieldValues) => {
+  const onSubmit = async (data: any) => {
     setLoading(true);
-    setResultado(null);
-
-    const parse = (v: any) => Number(String(v || "0").replace(",", "."));
-
     try {
+      const monthMap: { [key: string]: string } = {
+        "JANUARY": "01", "FEBRUARY": "02", "MARCH": "03", "APRIL": "04",
+        "MAY": "05", "JUNE": "06", "JULY": "07", "AUGUST": "08",
+        "SEPTEMBER": "09", "OCTOBER": "10", "NOVEMBER": "11", "DECEMBER": "12"
+      };
+
+      const mesFormatado = monthMap[data.month];
+      const dataFormatada = `${data.year}-${mesFormatado}`;
+
       const payload = {
-        mes: {
-          year: parse(data.year),
-          month: data.month,
-          monthValue: parse(data.monthValue),
-          leapYear: Boolean(data.leapYear),
-        },
-        diasTrabalhados: parse(data.diasTrabalhados),
-        jornadaMensal: parse(data.jornadaMensal),
-        jornadaSemanal: parse(data.jornadaSemanal),
-        valeTransporteRecebido: parse(data.valeTransporteRecebido),
-        cargaDiaria: parse(data.cargaDiaria),
-        horasExtra: parse(data.horasExtra),
-        valorValeAlimentacaoDiario: parse(data.valorValeAlimentacaoDiario),
-        numeroDeDependentes: parse(data.numeroDeDependentes),
-        valorPensaoAlimenticia: parse(data.valorPensaoAlimenticia),
+        funcionarioId: data.funcionarioId,
+        mes: dataFormatada,
+        diasTrabalhados: Number(data.diasTrabalhados),
+        jornadaMensal: 220,
+        jornadaSemanal: Number(data.jornadaSemanal),
+        valeTransporteRecebido: Number(data.valeTransporteRecebido?.toString().replace(",", ".") || 0),
+        cargaDiaria: 8,
+        horasExtra: 0,
+        valorValeAlimentacaoDiario: Number(data.valorValeAlimentacaoDiario?.toString().replace(",", ".") || 0),
+        numeroDeDependentes: Number(data.numeroDeDependentes || 0),
+        valorPensaoAlimenticia: Number(data.valorPensaoAlimenticia?.toString().replace(",", ".") || 0),
       };
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
-
       const res = await fetch(`${apiUrl}/folha/gerar-folha`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(session?.idToken
-            ? { Authorization: `Bearer ${session.idToken}` }
-            : {}),
+          Authorization: `Bearer ${session?.idToken}`
         },
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `Erro ${res.status}`);
-      }
-
+      if (!res.ok) throw new Error(await res.text());
       const json = await res.json();
       setResultado(json);
-      toast.success("Folha gerada com sucesso!");
+      setStep(4);
     } catch (error: any) {
-      toast.error(error?.message || "Erro ao gerar folha");
+      console.error("Erro ao calcular folha", error);
+      toast.error(error.message || "Erro ao calcular folha.");
     } finally {
       setLoading(false);
     }
   };
 
-  const values = watch();
-
-  /** --------------------
-   * COMPONENTES DE ETAPA
-   ----------------------*/
-
-  function StepIndicator() {
-    return (
-      <div className="flex items-center justify-center gap-2 mb-8">
-        {[1, 2, 3, 4].map((n, idx) => (
-          <div key={n} className="flex items-center gap-2">
-            <div
-              className={`w-3 h-3 rounded-full ${
-                step >= n ? "bg-blue-500" : "bg-gray-300"
-              }`}
-            />
-            {idx < 3 && (
-              <div
-                className={`w-10 h-0.5 ${
-                  step > n ? "bg-blue-500" : "bg-gray-300"
-                }`}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  /** -------------------- ETAPA 1 -------------------- */
-
-  function Step1() {
-    return (
-      <>
-        <h2 className="text-xl font-bold mb-6 text-center">
-          Adicionais de Periculosidade e Insalubridade
-        </h2>
-
-        <SelectInput
-          id="periculosidade"
-          label="Periculosidade"
-          placeholder="Selecione"
-          options={[
-            { id: "SIM", value: "Sim" },
-            { id: "NAO", value: "Não" },
-          ]}
-          register={register("periculosidade", { required: true })}
-          error={errors.periculosidade?.message as string}
-        />
-
-        <div className="mt-4">
-          <SelectInput
-            id="insalubridade"
-            label="Insalubridade"
-            placeholder="Selecione"
-            options={[
-              { id: "NAO", value: "Não" },
-              { id: "BAIXO", value: "Baixo (10%)" },
-              { id: "MEDIO", value: "Médio (20%)" },
-              { id: "ALTO", value: "Alto (40%)" },
-            ]}
-            register={register("insalubridade", { required: true })}
-            error={errors.insalubridade?.message as string}
-          />
-        </div>
-
-        <div className="flex justify-end mt-8">
-          <Button label="Próximo" onClick={goNext} />
-        </div>
-      </>
-    );
-  }
-
-  /** -------------------- ETAPA 2 -------------------- */
-
-  function Step2() {
-    return (
-      <>
-        <h2 className="text-xl font-bold mb-6 text-center">
-          Benefícios e Deduções
-        </h2>
-
-        <Input
-          id="valorValeAlimentacaoDiario"
-          type="text"
-          label="Valor Diário do Vale Alimentação"
-          placeholder="Ex: 20.00"
-          register={register("valorValeAlimentacaoDiario", {
-            required: "Obrigatório",
-            onChange: (e) =>
-              (e.target.value = formatNumberInput(e.target.value)),
-          })}
-          error={errors.valorValeAlimentacaoDiario?.message}
-        />
-
-        <Input
-          id="valeTransporteRecebido"
-          type="text"
-          label="Valor Total do Vale Transporte"
-          placeholder="Ex: 150.00"
-          register={register("valeTransporteRecebido", {
-            required: "Obrigatório",
-            onChange: (e) =>
-              (e.target.value = formatNumberInput(e.target.value)),
-          })}
-          error={errors.valeTransporteRecebido?.message}
-        />
-
-        <Input
-          id="numeroDeDependentes"
-          type="text"
-          label="Número de Dependentes"
-          placeholder="Ex: 2"
-          register={register("numeroDeDependentes", {
-            required: "Obrigatório",
-            onChange: (e) =>
-              (e.target.value = formatNumberInput(e.target.value)),
-          })}
-          error={errors.numeroDeDependentes?.message}
-        />
-
-        <Input
-          id="valorPensaoAlimenticia"
-          type="text"
-          label="Valor da Pensão Alimentícia"
-          placeholder="Ex: 0.00"
-          register={register("valorPensaoAlimenticia", {
-            required: "Obrigatório",
-            onChange: (e) =>
-              (e.target.value = formatNumberInput(e.target.value)),
-          })}
-          error={errors.valorPensaoAlimenticia?.message}
-        />
-
-        <div className="flex justify-between mt-8">
-          <Button label="Voltar" onClick={goPrev} />
-          <Button label="Próximo" onClick={goNext} />
-        </div>
-      </>
-    );
-  }
-
-  /** -------------------- ETAPA 3 -------------------- */
-
-  function Step3() {
-    return (
-      <>
-        <h2 className="text-xl font-bold mb-6 text-center">
-          Informações Gerais
-        </h2>
-
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            id="year"
-            type="text"
-            label="Ano"
-            placeholder="Ex: 2024"
-            register={register("year", {
-              required: "Obrigatório",
-              onChange: (e) =>
-                (e.target.value = formatNumberInput(e.target.value)),
-            })}
-            error={errors.year?.message}
-          />
-
-          <SelectInput
-            id="month"
-            label="Mês"
-            placeholder="Selecione"
-            options={meses}
-            register={register("month", { required: "Obrigatório" })}
-            error={errors.month?.message as string}
-          />
-
-          <Input
-            id="monthValue"
-            type="text"
-            label="Month Value"
-            placeholder="Ex: 10"
-            register={register("monthValue", {
-              required: "Obrigatório",
-              onChange: (e) =>
-                (e.target.value = formatNumberInput(e.target.value)),
-            })}
-            error={errors.monthValue?.message}
-          />
-
-          <div className="flex items-center gap-2 mt-6">
-            <input type="checkbox" {...register("leapYear")} id="leapYear" className="w-4 h-4" />
-            <label htmlFor="leapYear" className="text-sm text-gray-700">
-              Ano Bissexto?
-            </label>
-          </div>
-
-          <Input
-            id="diasTrabalhados"
-            type="text"
-            label="Dias Trabalhados"
-            placeholder="Ex: 22"
-            register={register("diasTrabalhados", {
-              required: "Obrigatório",
-              onChange: (e) =>
-                (e.target.value = formatNumberInput(e.target.value)),
-            })}
-            error={errors.diasTrabalhados?.message}
-          />
-
-          <Input
-            id="cargaDiaria"
-            type="text"
-            label="Carga Diária (horas)"
-            placeholder="Ex: 8"
-            register={register("cargaDiaria", {
-              required: "Obrigatório",
-              onChange: (e) =>
-                (e.target.value = formatNumberInput(e.target.value)),
-            })}
-            error={errors.cargaDiaria?.message}
-          />
-
-          <Input
-            id="jornadaMensal"
-            type="text"
-            label="Jornada Mensal (horas)"
-            placeholder="Ex: 176"
-            register={register("jornadaMensal", {
-              required: "Obrigatório",
-              onChange: (e) =>
-                (e.target.value = formatNumberInput(e.target.value)),
-            })}
-            error={errors.jornadaMensal?.message}
-          />
-
-          <Input
-            id="jornadaSemanal"
-            type="text"
-            label="Jornada Semanal (horas)"
-            placeholder="Ex: 40"
-            register={register("jornadaSemanal", {
-              required: "Obrigatório",
-              onChange: (e) =>
-                (e.target.value = formatNumberInput(e.target.value)),
-            })}
-            error={errors.jornadaSemanal?.message}
-          />
-
-          <Input
-            id="horasExtra"
-            type="text"
-            label="Horas Extras"
-            placeholder="Ex: 5"
-            register={register("horasExtra", {
-              required: "Obrigatório",
-              onChange: (e) =>
-                (e.target.value = formatNumberInput(e.target.value)),
-            })}
-            error={errors.horasExtra?.message}
-          />
-        </div>
-
-        <div className="flex justify-between mt-8">
-          <Button label="Voltar" onClick={goPrev} />
-          <Button label="Revisar" onClick={goNext} />
-        </div>
-      </>
-    );
-  }
-
-  /** -------------------- ETAPA 4 -------------------- */
-
-  function Step4() {
-    return (
-      <>
-        <h2 className="text-xl font-bold mb-6 text-center">Revisão Final</h2>
-
-        <div className="bg-gray-100 p-4 rounded border">
-          <h3 className="font-semibold mb-2">Adicionais</h3>
-          <p>Periculosidade: {values.periculosidade}</p>
-          <p>Insalubridade: {values.insalubridade}</p>
-
-          <h3 className="font-semibold mt-4 mb-2">Benefícios e Deduções</h3>
-          <p>VA Diário: {values.valorValeAlimentacaoDiario}</p>
-          <p>VT Total: {values.valeTransporteRecebido}</p>
-          <p>Dependentes: {values.numeroDeDependentes}</p>
-          <p>Pensão Alimentícia: {values.valorPensaoAlimenticia}</p>
-
-          <h3 className="font-semibold mt-4 mb-2">Informações Gerais</h3>
-          <p>Ano: {values.year}</p>
-          <p>Mês: {values.month}</p>
-          <p>MonthValue: {values.monthValue}</p>
-          <p>Ano Bissexto: {values.leapYear ? "Sim" : "Não"}</p>
-          <p>Dias Trabalhados: {values.diasTrabalhados}</p>
-          <p>Carga Diária: {values.cargaDiaria}</p>
-          <p>Jornada Mensal: {values.jornadaMensal}</p>
-          <p>Jornada Semanal: {values.jornadaSemanal}</p>
-          <p>Horas Extras: {values.horasExtra}</p>
-        </div>
-
-        <div className="flex justify-between mt-8">
-          <Button label="Voltar" onClick={goPrev} />
-          <Button
-            label={loading ? "Enviando..." : "Gerar Folha"}
-            onClick={handleSubmit(onFinalSubmit)}
-          />
-        </div>
-
-        {resultado && (
-          <div className="mt-6 p-4 bg-white border rounded">
-            <h3 className="font-semibold mb-2">Resultado</h3>
-            <pre className="text-sm overflow-auto">
-              {JSON.stringify(resultado, null, 2)}
-            </pre>
-          </div>
-        )}
-      </>
-    );
-  }
-
-  /** -------------------- RENDER PRINCIPAL -------------------- */
+  const handleReset = () => {
+    setStep(1);
+    setResultado(null);
+    setSelectedFuncionario(null);
+    methods.reset();
+  };
 
   return (
-    <div>
-      <Header />
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-bold text-gray-800">Cálculo de Folha de Pagamento</h1>
+        <p className="text-gray-600 mt-2">Siga os passos para gerar o holerite</p>
+      </div>
 
-      <div className="flex justify-center mt-10 px-4">
-        <div className="bg-white border rounded p-8 w-full max-w-3xl">
-          <StepIndicator />
-
-          {step === 1 && <Step1 />}
-          {step === 2 && <Step2 />}
-          {step === 3 && <Step3 />}
-          {step === 4 && <Step4 />}
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className="flex justify-between items-center relative">
+          <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 -z-10"></div>
+          {[1, 2, 3, 4].map((s) => (
+            <div
+              key={s}
+              className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-colors ${
+                step >= s ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-500"
+              }`}
+            >
+              {s}
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between mt-2 text-sm text-gray-600">
+          <span>Funcionário</span>
+          <span>Período</span>
+          <span>Benefícios</span>
+          <span>Resultado</span>
         </div>
       </div>
+
+      <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+        <FormProvider {...methods}>
+          <form onSubmit={(e) => e.preventDefault()}>
+            {step === 1 && (
+              <Step1 
+                funcionarios={funcionarios} 
+                selectedFuncionario={selectedFuncionario}
+                isAdmin={session?.user?.role === "ADMIN"}
+                meses={meses}
+              />
+            )}
+            {step === 2 && <Step2 />}
+            {step === 3 && <Step3 />}
+            {step === 4 && (
+              <Step4
+                resultado={resultado}
+                selectedFuncionario={selectedFuncionario}
+                onReset={handleReset}
+              />
+            )}
+
+            {step < 4 && (
+              <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
+                <Button
+                  label="Voltar"
+                  onClick={handleBack}
+                  className={`bg-gray-500 hover:bg-gray-600 ${step === 1 ? "invisible" : ""}`}
+                />
+                <Button 
+                  label={loading ? "Calculando..." : step === 3 ? "Calcular Folha" : "Próximo"}
+                  onClick={handleNext} 
+                  className={loading ? "opacity-50 cursor-not-allowed" : ""}
+                />
+              </div>
+            )}
+          </form>
+        </FormProvider>
+      </div>
+
+      {/* Histórico Section */}
+      {selectedFuncionario && historico.length > 0 && step === 1 && (
+        <div className="mt-8 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Histórico de Folhas - {selectedFuncionario.nome}</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-gray-50 text-gray-500 border-b border-gray-200">
+                <tr>
+                  <th className="px-4 py-2">Mês/Ano</th>
+                  <th className="px-4 py-2">Salário Bruto</th>
+                  <th className="px-4 py-2">Descontos</th>
+                  <th className="px-4 py-2">Salário Líquido</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {historico.map((folha: any) => (
+                  <tr key={folha.idFolha}>
+                    <td className="px-4 py-2">{folha.mes}</td>
+                    <td className="px-4 py-2">R$ {folha.salarioBruto?.toFixed(2) || "-"}</td>
+                    <td className="px-4 py-2 text-red-600">
+                      R$ {((folha.valorDeDescontoINSS || 0) + (folha.valorDeDescontoIRRF || 0) + (folha.valorDeDescontoVT || 0) + (folha.valorDeDescontoVA || 0)).toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2 font-bold text-green-600">R$ {folha.salarioLiquido?.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
