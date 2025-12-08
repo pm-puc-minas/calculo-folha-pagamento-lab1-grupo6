@@ -59,3 +59,4 @@ Projeto desenvolvido para a disciplina **Programação Modular (2025)**, com foc
 - Frontend: `cd frontend; npm install; npm run dev`
 - Credenciais admin pré-criadas no perfil `dev`: usuário `email@email.com` e senha `123` (papel ADMIN). Há também o usuário `admin@admin.com` com senha `admin`.
 - Banco H2 em arquivo (`data/testdb`); ao subir com o perfil `dev` os dados de exemplo são criados automaticamente se o repositório de usuários estiver vazio.
+- Documentação da API (Swagger): Acesse `http://localhost:8080/swagger-ui.html` após iniciar o backend.
