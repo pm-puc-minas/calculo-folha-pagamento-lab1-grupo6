@@ -20,7 +20,6 @@ public class AuthenticatedUser implements UserDetails {
     public User getUserEntity() { return user; }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Fallback to USER if role is missing to avoid NPE on legacy records
         String roleName = user.getRole() != null ? user.getRole().name() : "USER";
         return List.of(new SimpleGrantedAuthority("ROLE_" + roleName));
     }
